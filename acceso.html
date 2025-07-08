@@ -1,0 +1,177 @@
+<!-- acceso.html - Página unificada de acceso estilo OnlyFans -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceder | DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+
+    .login-container {
+      max-width: 360px;
+      width: 100%;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .login-container h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-container p {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-container button, .login-container input[type="email"], .login-container input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 25px;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      text-align: left;
+    }
+
+    .social-btn {
+      background-color: #222;
+      color: white;
+      position: relative;
+      font-weight: 500;
+      justify-content: flex-start;
+      padding-left: 2.5rem;
+    }
+
+    .social-btn .x-logo {
+      position: absolute;
+      left: 1.1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      letter-spacing: -2px;
+      margin-right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .social-btn.google {
+      background-color: #4285F4;
+      color: #fff;
+      justify-content: center;
+      padding-left: 0;
+      position: relative;
+    }
+
+    .social-btn .google-logo {
+      position: absolute;
+      left: 1rem;
+      width: 22px;
+      height: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #fff;
+      border-radius: 50%;
+      padding: 2px;
+      box-sizing: border-box;
+      /* No afecta el centrado del texto */
+    }
+
+    .social-btn.google span {
+      flex: 1;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .or-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: #ccc;
+    }
+
+    .or-divider span {
+      padding: 0 0.5rem;
+      color: #999;
+      font-size: 0.85rem;
+    }
+
+    .login-container a {
+      color: #0077cc;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .login-container .login-btn {
+      background-color: #00aaff;
+      color: white;
+      justify-content: center;
+      padding-left: 0;
+    }
+
+    .register-link {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 500px) {
+      .login-container {
+        padding: 1.2rem 0.5rem;
+      }
+      .social-btn, .login-container input[type="email"], .login-container input[type="password"], .login-btn {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>DefyX</h1>
+    <p>Únete para explorar desafíos, ganar seguidores y monetizar tu creatividad</p>
+
+    <button class="social-btn">
+      <span class="x-logo">𝕏</span>
+      Sign in with X
+    </button>
+    <button class="social-btn google">
+      <img class="google-logo" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
+      <span>Sign in with Google</span>
+    </button>
+
+    <div class="or-divider"><span>OR</span></div>
+
+    <input type="email" placeholder="E-mail">
+    <input type="password" placeholder="Password">
+    <a href="#">Forgot password?</a>
+
+    <button class="login-btn">LOGIN</button>
+
+    <p class="register-link">
+      Don't have an account yet?<br>
+      <a href="#">Sign up for DefyX</a>
+    </p>
+  </div>
+</body>

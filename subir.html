@@ -1,0 +1,32 @@
+<!-- subir.html - Subida de evidencia del desafío -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subir Evidencia | DefyX</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Sube tu evidencia</h1>
+    <p>Comparte tu prueba de que realizaste el desafío</p>
+  </header>
+
+  <main>
+    <form class="formulario-subida" enctype="multipart/form-data">
+      <label for="archivo">Selecciona una foto o video:</label>
+      <input type="file" id="archivo" name="archivo" accept="image/*,video/*" required>
+
+      <label for="comentario">Comentario opcional:</label>
+      <textarea id="comentario" name="comentario" rows="3" placeholder="¿Cómo fue la experiencia?"></textarea>
+
+      <button type="submit">Subir evidencia</button>
+    </form>
+  </main>
+
+  <footer>
+    <p><a href="detalle.html">⬅ Volver al desafío</a></p>
+  </footer>
+</body>
+</html>

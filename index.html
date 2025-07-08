@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefyX - Plataforma de Desafíos Compartidos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a DefyX</h1>
+        <p>Selecciona un modo para continuar:</p>
+    </header>
+    
+    <main>
+        <section class="mode-selection">
+            <button id="family-mode">Modo Familiar</button>
+            <button id="adult-mode">Modo +18 (requiere verificación)</button>
+        </section>
+
+        <section class="challenge-exploration" style="display:none;">
+            <h2>Explora Desafíos</h2>
+            <div class="challenge-card">
+                <img src="challenge-image.jpg" alt="Desafío" />
+                <h3>Nombre del Desafío</h3>
+                <p>Tipo de Desafío</p>
+                <button class="view-more">Ver más</button>
+            </div>
+            <!-- Más tarjetas de desafíos se pueden agregar aquí -->
+        </section>
+
+        <section class="challenge-detail" style="display:none;">
+            <h2>Detalles del Desafío</h2>
+            <img src="featured-image.jpg" alt="Imagen Destacada" />
+            <p>Descripción del desafío...</p>
+            <p>Valor estimado: $XX.XX</p>
+            <button id="invite-button">Invitar a alguien</button>
+            <button id="unlock-button">Desbloquear por $</button>
+        </section>
+
+        <section class="invitation" style="display:none;">
+            <h2>Invitar a alguien</h2>
+            <form id="invitation-form">
+                <input type="email" placeholder="Correo electrónico" required>
+                <input type="number" placeholder="Monto ofrecido" min="0">
+                <button type="submit">Enviar Invitación</button>
+            </form>
+        </section>
+
+        <section class="evidence-upload" style="display:none;">
+            <h2>Cargar Evidencia</h2>
+            <form id="evidence-form">
+                <input type="file" accept="image/*,video/*" required>
+                <textarea placeholder="Comentario"></textarea>
+                <button type="submit">Marcar como completado</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
