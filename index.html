@@ -1,62 +1,518 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DefyX - Plataforma de Desafíos Compartidos</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DefyX - Landing</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #18191a;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .header-bg {
+      background: linear-gradient(180deg, #2196f3 60%, #18191a 100%);
+      padding-bottom: 2.5rem;
+      position: relative;
+    }
+    .header-logo-bg {
+      background: #1da1f2;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 1.5rem;
+      top: 4.5rem;
+      border: 4px solid #18191a;
+      z-index: 2;
+    }
+    .header-logo-bg img {
+      width: 70px;
+      height: 70px;
+    }
+    .header-content {
+      padding: 2.5rem 1.2rem 0 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .header-title {
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-left: 120px;
+      margin-top: 1.2rem;
+    }
+    .header-meta {
+      display: flex;
+      gap: 1.2rem;
+      margin: 0.7rem 0 0.5rem 120px;
+      font-size: 1rem;
+      color: #e0e0e0;
+    }
+    .header-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .profile-info {
+      margin-left: 120px;
+      margin-top: 0.5rem;
+    }
+    .profile-info .profile-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .profile-info .profile-user {
+      color: #b0b0b0;
+      font-size: 0.98rem;
+      margin-bottom: 0.3rem;
+    }
+    .profile-info .profile-desc {
+      color: #e0e0e0;
+      font-size: 0.97rem;
+      margin-bottom: 0.2rem;
+    }
+    .profile-info .profile-link {
+      color: #4fc3f7;
+      text-decoration: underline;
+      font-size: 0.97rem;
+    }
+    .subscription-section {
+      margin-top: 1.5rem;
+      padding: 0 1.2rem;
+    }
+    .subscription-title {
+      color: #b0b0b0;
+      font-size: 1.05rem;
+      margin-bottom: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .subscription-btns {
+      display: flex;
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+    .btn-subscribe {
+      flex: 1;
+      background: #1da1f2;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.9rem 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #23272a;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #b0b0b0;
+      background: #18191a;
+    }
+    .tabs .tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.9rem 0 0.7rem 0;
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+      transition: border 0.2s;
+    }
+    .tabs .tab.active {
+      color: #fff;
+      border-bottom: 2.5px solid #1da1f2;
+      background: #18191a;
+    }
+    .section-title {
+      color: #b0b0b0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 1.2rem 0 0.7rem 1.2rem;
+      letter-spacing: 1px;
+    }
+    .feed-list {
+      padding: 0 0.5rem 5rem 0.5rem;
+    }
+    .feed-card {
+      background: #23272a;
+      border-radius: 1.1rem;
+      margin-bottom: 1.2rem;
+      padding: 1rem 1rem 0.7rem 1rem;
+      box-shadow: 0 2px 8px #0002;
+      cursor: pointer;
+      transition: transform 0.12s;
+      position: relative;
+    }
+    .feed-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 16px #1da1f233;
+    }
+    .feed-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+    .feed-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #1da1f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      font-weight: bold;
+    }
+    .feed-user {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .feed-time {
+      color: #b0b0b0;
+      font-size: 0.92rem;
+      margin-left: auto;
+    }
+    .feed-title {
+      font-size: 1.08rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: #4fc3f7;
+    }
+    .feed-desc {
+      color: #e0e0e0;
+      font-size: 0.97rem;
+      margin-bottom: 0.7rem;
+    }
+    .feed-media {
+      border-radius: 0.7rem;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .feed-media video,
+    .feed-media img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .feed-actions {
+      display: flex;
+      gap: 1.2rem;
+      color: #b0b0b0;
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+    .feed-actions span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #23272a;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 10;
+    }
+    .bottom-nav button {
+      background: none;
+      border: none;
+      color: #b0b0b0;
+      font-size: 1.7rem;
+      padding: 0;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .bottom-nav button.active,
+    .bottom-nav button:hover {
+      color: #1da1f2;
+    }
+    .hidden { display: none !important; }
+    .tab-section { animation: fadein 0.2s; }
+    @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 500px) {
+      .header-logo-bg {
+        width: 70px;
+        height: 70px;
+        left: 1rem;
+        top: 3.5rem;
+      }
+      .header-logo-bg img {
+        width: 48px;
+        height: 48px;
+      }
+      .header-title,
+      .header-meta,
+      .profile-info {
+        margin-left: 80px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Bienvenido a DefyX</h1>
-        <p>Selecciona un modo para continuar:</p>
-    </header>
-    
-    <main>
-        <section class="mode-selection">
-            <button id="family-mode">Modo Familiar</button>
-            <button id="adult-mode">Modo +18 (requiere verificación)</button>
-        </section>
+  <div class="header-bg">
+    <div class="header-logo-bg">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/OnlyFans_logo.svg" alt="DefyX Logo">
+    </div>
+    <div class="header-content">
+      <div class="header-title">DefyX</div>
+      <div class="header-meta">
+        <span>📹 1.2K</span>
+        <span>❤️ 8.7K</span>
+        <span>👥 12.3K</span>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">DefyX <span>✔️</span></div>
+        <div class="profile-user">@defyx</div>
+        <div class="profile-desc">Desafíos reales y creatividad sin límites. ¡Únete y comparte tus retos!</div>
+        <div class="profile-link">Ver más: <a href="#">defyx.com/creators</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="subscription-section">
+    <div class="subscription-title">SUSCRIPCIÓN</div>
+    <div class="subscription-btns">
+      <button class="btn-subscribe" style="width:100%;" onclick="window.location.href='acceso.html'">
+        SUSCRÍBETE GRATIS
+      </button>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('masvistos', this)">MÁS VISTOS</div>
+    <div class="tab" onclick="showTab('destacados', this)">DESTACADOS</div>
+    <div class="tab" onclick="showTab('desafiar', this)">DESAFIAR</div>
+    <div class="tab" onclick="showTab('crear', this)">CREAR</div>
+  </div>
 
-        <section class="challenge-exploration" style="display:none;">
-            <h2>Explora Desafíos</h2>
-            <div class="challenge-card">
-                <img src="challenge-image.jpg" alt="Desafío" />
-                <h3>Nombre del Desafío</h3>
-                <p>Tipo de Desafío</p>
-                <button class="view-more">Ver más</button>
-            </div>
-            <!-- Más tarjetas de desafíos se pueden agregar aquí -->
-        </section>
+  <!-- Secciones de cada tab -->
+  <div id="tab-masvistos" class="tab-section">
+    <div class="section-title">RECIENTE</div>
+    <div class="feed-list">
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">DX</div>
+          <div class="feed-user">DefyX</div>
+          <div class="feed-time">hace 1h</div>
+        </div>
+        <div class="feed-title">Desafío: Baile TikTok</div>
+        <div class="feed-desc">Graba un video bailando la coreografía viral del mes. ¡Súbelo y reta a tus amigos!</div>
+        <div class="feed-media">
+          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 120</span>
+          <span>💬 18</span>
+          <span>🔓 Desbloqueado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-destacados" class="tab-section hidden">
+    <div class="section-title">DESTACADOS</div>
+    <div class="feed-list">
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">JU</div>
+          <div class="feed-user">Juanita</div>
+          <div class="feed-time">hace 3h</div>
+        </div>
+        <div class="feed-title">Desafío: Foto Creativa</div>
+        <div class="feed-desc">Toma una foto original usando solo objetos azules. ¡Demuestra tu creatividad!</div>
+        <div class="feed-media">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Desafío foto creativa">
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 89</span>
+          <span>💬 7</span>
+          <span>🔓 Desbloqueado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-desafiar" class="tab-section hidden">
+    <div class="section-title">DESAFIAR</div>
+    <div class="section-desc" style="color:#b0b0b0; margin: 0 1.2rem 1rem 1.2rem; font-size:1rem;">
+      ¡Invita y desafía a quien tú quieras! Elige un reto prediseñado y comparte la experiencia con tus amigos o la comunidad.
+    </div>
+    <div class="feed-list">
+      <!-- Desafío 1 -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">DX</div>
+          <div class="feed-user">DefyX</div>
+          <div class="feed-time">hace 1h</div>
+        </div>
+        <div class="feed-title">Camina 10km en la ciudad</div>
+        <div class="feed-desc">Explora tu ciudad a pie y registra la experiencia.</div>
+        <div class="feed-media">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Camina 10km en la ciudad">
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 120</span>
+          <span>💬 18</span>
+          <span>Gratis</span>
+        </div>
+      </div>
+      <!-- Desafío 2 -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">JU</div>
+          <div class="feed-user">Juanita</div>
+          <div class="feed-time">hace 2h</div>
+        </div>
+        <div class="feed-title">Comida sin manos</div>
+        <div class="feed-desc">Come una hamburguesa sin usar las manos. ¡Graba el reto!</div>
+        <div class="feed-media">
+          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"></video>
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 89</span>
+          <span>💬 7</span>
+          <span>$500</span>
+        </div>
+      </div>
+      <!-- Desafío 3 -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">DX</div>
+          <div class="feed-user">DefyX</div>
+          <div class="feed-time">hace 3h</div>
+        </div>
+        <div class="feed-title">Desafío TikTok</div>
+        <div class="feed-desc">Haz la coreografía viral del mes y compártela.</div>
+        <div class="feed-media">
+          <video src="https://www.w3schools.com/html/movie.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 67</span>
+          <span>💬 4</span>
+          <span>Gratis</span>
+        </div>
+      </div>
+      <!-- Desafío 4 -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">JU</div>
+          <div class="feed-user">Juanita</div>
+          <div class="feed-time">hace 4h</div>
+        </div>
+        <div class="feed-title">Selfie con extraños</div>
+        <div class="feed-desc">Tómate una selfie con 3 personas desconocidas.</div>
+        <div class="feed-media">
+          <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Selfie con extraños">
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 55</span>
+          <span>💬 2</span>
+          <span>$200</span>
+        </div>
+      </div>
+      <!-- Desafío 5 -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">MA</div>
+          <div class="feed-user">Marcos</div>
+          <div class="feed-time">hace 5h</div>
+        </div>
+        <div class="feed-title">Maratón de deportes</div>
+        <div class="feed-desc">Practica 3 deportes distintos en un día y sube evidencia.</div>
+        <div class="feed-media">
+          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
+        </div>
+        <div class="feed-actions">
+          <span>❤️ 40</span>
+          <span>💬 1</span>
+          <span>$1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-crear" class="tab-section hidden">
+    <div class="section-title">CREAR</div>
+    <div style="color:#b0b0b0;text-align:center;">Próximamente podrás crear tus propios desafíos aquí.</div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="active" title="Inicio">🏠</button>
+    <button title="Buscar">🔍</button>
+    <button title="Crear">➕</button>
+    <button title="Notificaciones">🔔</button>
+    <button title="Perfil">👤</button>
+  </nav>
+ <script>
+  // Simulación de login (puedes reemplazar por tu lógica real)
+  let isLogged = false;
 
-        <section class="challenge-detail" style="display:none;">
-            <h2>Detalles del Desafío</h2>
-            <img src="featured-image.jpg" alt="Imagen Destacada" />
-            <p>Descripción del desafío...</p>
-            <p>Valor estimado: $XX.XX</p>
-            <button id="invite-button">Invitar a alguien</button>
-            <button id="unlock-button">Desbloquear por $</button>
-        </section>
+  // Cambia de pestaña y vuelve a asignar eventos
+  function showTab(tab, el) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
+    document.getElementById('tab-' + tab).classList.remove('hidden');
+    document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    asignarEventosDesafios(tab);
+  }
 
-        <section class="invitation" style="display:none;">
-            <h2>Invitar a alguien</h2>
-            <form id="invitation-form">
-                <input type="email" placeholder="Correo electrónico" required>
-                <input type="number" placeholder="Monto ofrecido" min="0">
-                <button type="submit">Enviar Invitación</button>
-            </form>
-        </section>
+  // Asigna el evento solo a los desafíos de la sección DESAFIAR
+  function asignarEventosDesafios(tabActiva) {
+    // Limpia eventos previos
+    document.querySelectorAll('.feed-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.onclick = null;
+    });
 
-        <section class="evidence-upload" style="display:none;">
-            <h2>Cargar Evidencia</h2>
-            <form id="evidence-form">
-                <input type="file" accept="image/*,video/*" required>
-                <textarea placeholder="Comentario"></textarea>
-                <button type="submit">Marcar como completado</button>
-            </form>
-        </section>
-    </main>
+    if (tabActiva === 'desafiar') {
+      document.querySelectorAll('#tab-desafiar .feed-card').forEach(card => {
+        card.onclick = function(e) {
+          // Permite reproducir video o imagen sin disparar el evento
+          if (e.target.tagName === 'VIDEO' || e.target.tagName === 'IMG' || e.target.closest('.feed-media')) return;
+          if (isLogged) {
+            alert("¡Acceso al desafío desbloqueado!");
+          } else {
+            if (confirm("Debes iniciar sesión o suscribirte para ver este desafío. ¿Deseas inscribirte ahora?")) {
+              window.location.href = 'acceso.html';
+            }
+            // Si cancela, no hace nada y se queda en la sección
+          }
+        };
+      });
+    }
+  }
 
-    <script src="script.js"></script>
+  // Inicializa eventos al cargar la página (por defecto en MÁS VISTOS)
+  document.addEventListener('DOMContentLoaded', function() {
+    asignarEventosDesafios('masvistos');
+    // También asigna eventos si el usuario entra directo a DESAFIAR
+    document.querySelectorAll('.tabs .tab').forEach(tabBtn => {
+      tabBtn.addEventListener('click', function() {
+        // El evento showTab ya se encarga de llamar a asignarEventosDesafios
+      });
+    });
+  });
+</script>
 </body>
 </html>
