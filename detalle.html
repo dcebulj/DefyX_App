@@ -1,37 +1,283 @@
-<!-- detalle.html - Detalle de un desafío -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle del Desafío | DefyX</title>
+  <title>Detalle del Desafío - DefyX</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #18191a;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .detalle-header {
+      padding: 1.5rem 1.2rem 0.5rem 1.2rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1da1f2;
+      letter-spacing: 1px;
+    }
+    .detalle-card {
+      background: #23272a;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 8px #0002;
+      overflow: hidden;
+      margin: 2rem auto 1.5rem auto;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+    .detalle-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      background: #111;
+    }
+    .detalle-info {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .detalle-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #4fc3f7;
+      margin: 0;
+    }
+    .detalle-tipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .detalle-desc {
+      color: #e0e0e0;
+      font-size: 1.05rem;
+    }
+    .detalle-autor {
+      color: #b0b0b0;
+      font-size: 0.98rem;
+    }
+    .detalle-regalo {
+      color: #ffd700;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .detalle-actions {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-accion {
+      background: #1da1f2;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-accion:hover {
+      background: #2196f3;
+    }
+    .comentarios-section {
+      max-width: 420px;
+      margin: 0 auto 5rem auto;
+      background: #23272a;
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+    .comentarios-title {
+      color: #b0b0b0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+    }
+    .comentario {
+      border-bottom: 1px solid #333;
+      padding: 0.6rem 0;
+      color: #e0e0e0;
+      font-size: 0.98rem;
+    }
+    .comentario:last-child {
+      border-bottom: none;
+    }
+    .main-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #23272a;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 10;
+    }
+    .main-nav a {
+      color: #b0b0b0;
+      font-size: 1.7rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.2rem 0;
+      flex: 1;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+    .main-nav a.active,
+    .main-nav a:hover {
+      color: #1da1f2;
+    }
+    .main-nav a span:last-child {
+      font-size: 0.85rem;
+      margin-top: 0.1rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Desafío: Comida sin manos</h1>
-  </header>
+  <div class="detalle-header">Detalle del desafío</div>
+  <div class="detalle-card">
+    <img class="detalle-img" src="" alt="Desafío">
+    <div class="detalle-info">
+      <div class="detalle-title"></div>
+      <div class="detalle-tipo"></div>
+      <div class="detalle-desc"></div>
+      <div class="detalle-autor"></div>
+      <div class="detalle-regalo" style="display:none;">🎁 Este desafío fue regalado por <b>Juanita</b></div>
+      <div class="detalle-actions">
+        <button class="btn-accion btn-aceptar">Aceptar gratis</button>
+        <button class="btn-accion btn-subir">Subir evidencia</button>
+        <button class="btn-accion btn-invitar">Invitar/Retar</button>
+        <button class="btn-accion btn-compartir">Compartir</button>
+      </div>
+    </div>
+  </div>
+  <div class="comentarios-section">
+    <div class="comentarios-title">Comentarios</div>
+    <div class="comentario"><b>@juanita:</b> ¡Me encantó este reto!</div>
+    <div class="comentario"><b>@marcos:</b> Lo hice con mis amigos, muy entretenido.</div>
+    <div class="comentario"><b>@sofia:</b> ¿Alguien más lo intentó en el parque?</div>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html" title="Inicio"><span>🏠</span><span>Inicio</span></a>
+    <a href="explorar.html" title="Explorar"><span>🔥</span><span>Explorar</span></a>
+    <a href="mis-desafios.html" title="Mis desafíos"><span>🎯</span><span>Mis desafíos</span></a>
+    <a href="notificaciones.html" title="Notificaciones"><span>🔔</span><span>Notificaciones</span></a>
+    <a href="perfil.html" title="Perfil"><span>👤</span><span>Perfil</span></a>
+  </nav>
 
-  <main class="detalle-desafio">
-    <img src="https://via.placeholder.com/600x300" alt="Imagen del desafío">
-    <section>
-      <h2>Descripción</h2>
-      <p>Debes comer una hamburguesa completa sin usar tus manos. Puedes usar solo tu boca y apoyo del plato. Documenta la experiencia con fotos o videos.</p>
-    </section>
+  <!-- Modal Invitar/Retar -->
+  <div id="modalInvitar" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:2000;">
+    <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; text-align:center; color:#fff; min-width:260px; max-width:90vw;">
+      <h3>Invitar a un amigo</h3>
+      <input type="text" placeholder="Buscar usuario o grupo" style="padding:0.5rem 1rem; border-radius:1rem; border:none; margin-bottom:1rem; width:90%;">
+      <div style="margin-bottom:1rem;">
+        <button class="btn-accion" onclick="alert('Invitación enviada!'); cerrarModalInvitar();">Enviar invitación</button>
+        <button class="btn-accion" onclick="cerrarModalInvitar();" style="background:#444;">Cancelar</button>
+      </div>
+      <div>
+        <span style="font-size:0.95rem; color:#b0b0b0;">O comparte el enlace:</span>
+        <input type="text" value="https://defyx.com/desafio/1" readonly style="width:90%; margin-top:0.5rem; border-radius:1rem; border:none; padding:0.4rem;">
+        <button class="btn-accion" onclick="alert('Enlace copiado!')">Copiar enlace</button>
+      </div>
+    </div>
+  </div>
 
-    <section>
-      <h2>Valor estimado</h2>
-      <p>$0 – Solo necesitas tu apetito y una cámara</p>
-    </section>
+  <script>
+  // Simulación de login (puedes reemplazar por tu lógica real)
+  let isLogged = false;
 
-    <section class="acciones">
-      <button onclick="location.href='invitar.html'">Invitar a alguien</button>
-      <button onclick="alert('Funcionalidad premium')">Desbloquear por $</button>
-    </section>
-  </main>
+  // Obtener el id del desafío desde la URL
+  function getIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('id') || '1';
+  }
+  const desafioId = getIdFromUrl();
 
-  <footer>
-    <p><a href="explorar.html">⬅ Volver a explorar</a></p>
-  </footer>
+  // Array de desafíos de ejemplo
+  const desafios = [
+    {
+      id: "1",
+      titulo: "Camina 10km en la ciudad",
+      tipo: "🙌 Gratis",
+      desc: "Explora tu ciudad a pie y registra la experiencia. Sube tu evidencia para completar el reto.",
+      autor: "DefyX",
+      imagen: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: "2",
+      titulo: "Comida sin manos",
+      tipo: "💸 $500",
+      desc: "Come una hamburguesa sin usar las manos. ¡Graba el reto!",
+      autor: "Juanita",
+      imagen: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: "3",
+      titulo: "Desafío TikTok",
+      tipo: "🎁 Regalo",
+      desc: "Haz la coreografía viral del mes y compártela.",
+      autor: "DefyX",
+      imagen: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
+    }
+  ];
+
+  // Mostrar los detalles dinámicamente
+  function mostrarDetalleDesafio(id) {
+    const desafio = desafios.find(d => d.id === id) || desafios[0];
+    document.querySelector('.detalle-title').textContent = desafio.titulo;
+    document.querySelector('.detalle-tipo').textContent = desafio.tipo;
+    document.querySelector('.detalle-desc').textContent = desafio.desc;
+    document.querySelector('.detalle-autor').innerHTML = `Por <b>${desafio.autor}</b>`;
+    document.querySelector('.detalle-img').src = desafio.imagen;
+  }
+  mostrarDetalleDesafio(desafioId);
+
+  // Acciones de botones
+  document.querySelector('.btn-aceptar').onclick = function() {
+    if (!isLogged) {
+      window.location.href = 'login.html';
+    } else {
+      alert('¡Desafío aceptado!');
+    }
+  };
+  document.querySelector('.btn-subir').onclick = function() {
+    if (!isLogged) {
+      window.location.href = 'login.html';
+    } else {
+      window.location.href = `subir.html?id=${desafioId}`;
+    }
+  };
+  document.querySelector('.btn-invitar').onclick = function() {
+    abrirModalInvitar();
+    // Actualiza el enlace de invitación con el id correcto
+    document.querySelector('#modalInvitar input[type="text"][readonly]').value = `https://defyx.com/desafio/${desafioId}`;
+  };
+  document.querySelector('.btn-compartir').onclick = function() {
+    alert('Función de compartir próximamente');
+  };
+
+  // Modal Invitar/Retar
+  function abrirModalInvitar() {
+    document.getElementById('modalInvitar').style.display = 'flex';
+  }
+  function cerrarModalInvitar() {
+    document.getElementById('modalInvitar').style.display = 'none';
+  }
+  // Cierra el modal si se hace click fuera del contenido
+  window.onclick = function(event) {
+    const modal = document.getElementById('modalInvitar');
+    if (event.target === modal) {
+      cerrarModalInvitar();
+    }
+  };
+  </script>
 </body>
 </html>

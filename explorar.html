@@ -1,38 +1,273 @@
-<!-- explorar.html - Vista de desafíos públicos -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorar Desafíos | DefyX</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorar Desafíos - DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #18191a;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .explorar-header {
+      padding: 1.5rem 1.2rem 0.5rem 1.2rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1da1f2;
+      letter-spacing: 1px;
+    }
+    .explorar-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1rem 0.5rem 5rem 0.5rem;
+    }
+    .card-desafio {
+      background: #23272a;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 8px #0002;
+      overflow: hidden;
+      transition: transform 0.12s;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-desafio:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 16px #1da1f233;
+    }
+    .card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: #111;
+    }
+    .card-info {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #4fc3f7;
+      margin: 0;
+    }
+    .card-tipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .card-desc {
+      color: #e0e0e0;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .card-autor {
+      color: #b0b0b0;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .btn-accion {
+      background: #1da1f2;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-accion:hover {
+      background: #2196f3;
+    }
+    .main-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #23272a;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 10;
+    }
+    .main-nav a {
+      color: #b0b0b0;
+      font-size: 1.7rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.2rem 0;
+      flex: 1;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+    .main-nav a.active,
+    .main-nav a:hover {
+      color: #1da1f2;
+    }
+    .main-nav a span:last-child {
+      font-size: 0.85rem;
+      margin-top: 0.1rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Explorar Desafíos</h1>
-    <p>Inspírate con retos creados por otros</p>
-  </header>
+  <div class="explorar-header">Explorar desafíos</div>
+  <div class="explorar-lista">
+    <div class="card-desafio" data-id="1">
+      <img class="card-img" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Desafío 1">
+      <div class="card-info">
+        <div class="card-title">Camina 10km en la ciudad</div>
+        <div class="card-tipo">🙌 Gratis</div>
+        <div class="card-desc">Explora tu ciudad a pie y registra la experiencia.</div>
+        <div class="card-autor">Por <b>DefyX</b></div>
+        <div class="card-actions">
+          <button class="btn-accion btn-ver">Ver detalles</button>
+          <button class="btn-accion btn-aceptar">Aceptar</button>
+          <button class="btn-accion btn-invitar">Invitar/Retar</button>
+          <button class="btn-accion btn-compartir">Compartir</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-desafio" data-id="2">
+      <img class="card-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Desafío 2">
+      <div class="card-info">
+        <div class="card-title">Comida sin manos</div>
+        <div class="card-tipo">💸 $500</div>
+        <div class="card-desc">Come una hamburguesa sin usar las manos. ¡Graba el reto!</div>
+        <div class="card-autor">Por <b>Juanita</b></div>
+        <div class="card-actions">
+          <button class="btn-accion btn-ver">Ver detalles</button>
+          <button class="btn-accion btn-aceptar">Aceptar</button>
+          <button class="btn-accion btn-invitar">Invitar/Retar</button>
+          <button class="btn-accion btn-compartir">Compartir</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-desafio" data-id="3">
+      <img class="card-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Desafío 3">
+      <div class="card-info">
+        <div class="card-title">Desafío TikTok</div>
+        <div class="card-tipo">🎁 Regalo</div>
+        <div class="card-desc">Haz la coreografía viral del mes y compártela.</div>
+        <div class="card-autor">Por <b>DefyX</b></div>
+        <div class="card-actions">
+          <button class="btn-accion btn-ver">Ver detalles</button>
+          <button class="btn-accion btn-aceptar">Aceptar</button>
+          <button class="btn-accion btn-invitar">Invitar/Retar</button>
+          <button class="btn-accion btn-compartir">Compartir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html" title="Inicio"><span>🏠</span><span>Inicio</span></a>
+    <a href="explorar.html" class="active" title="Explorar"><span>🔥</span><span>Explorar</span></a>
+    <a href="mis-desafios.html" title="Mis desafíos"><span>🎯</span><span>Mis desafíos</span></a>
+    <a href="notificaciones.html" title="Notificaciones"><span>🔔</span><span>Notificaciones</span></a>
+    <a href="perfil.html" title="Perfil"><span>👤</span><span>Perfil</span></a>
+  </nav>
 
-  <main class="desafios-grid">
-    <article class="desafio-card">
-      <img src="https://via.placeholder.com/300x150" alt="Desafío 1" />
-      <h2>Camina 10km en la ciudad</h2>
-      <p>Explora tu ciudad a pie y registra la experiencia.</p>
-      <button>Ver más</button>
-    </article>
+  <!-- Modal Invitar/Retar -->
+  <div id="modalInvitar" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:2000;">
+    <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; text-align:center; color:#fff; min-width:260px; max-width:90vw;">
+      <h3>Invitar a un amigo</h3>
+      <input type="text" placeholder="Buscar usuario o grupo" style="padding:0.5rem 1rem; border-radius:1rem; border:none; margin-bottom:1rem; width:90%;">
+      <div style="margin-bottom:1rem;">
+        <button class="btn-accion" onclick="alert('Invitación enviada!'); cerrarModalInvitar();">Enviar invitación</button>
+        <button class="btn-accion" onclick="cerrarModalInvitar();" style="background:#444;">Cancelar</button>
+      </div>
+      <div>
+        <span style="font-size:0.95rem; color:#b0b0b0;">O comparte el enlace:</span>
+        <input type="text" value="https://defyx.com/desafio/1" readonly style="width:90%; margin-top:0.5rem; border-radius:1rem; border:none; padding:0.4rem;">
+        <button class="btn-accion" onclick="alert('Enlace copiado!')">Copiar enlace</button>
+      </div>
+    </div>
+  </div>
 
-    <article class="desafio-card">
-      <img src="https://via.placeholder.com/300x150" alt="Desafío 2" />
-      <h2>Comida sin manos</h2>
-      <p>Come una hamburguesa sin usar las manos. ¡Graba el reto!</p>
-      <button>Ver más</button>
-    </article>
+  <script>
+  // Simulación de login (puedes reemplazar por tu lógica real)
+  let isLogged = false;
 
-    <!-- Agrega más desafíos aquí -->
-  </main>
+  // Manejo de clicks en cards
+  document.querySelectorAll('.card-desafio').forEach(card => {
+    // Botón Ver detalles
+    card.querySelector('.btn-ver').onclick = function(e) {
+      e.stopPropagation();
+      if (!isLogged) {
+        window.location.href = 'login.html';
+      } else {
+        const id = card.getAttribute('data-id');
+        window.location.href = `detalle.html?id=${id}`;
+      }
+    };
+    // Botón Aceptar
+    card.querySelector('.btn-aceptar').onclick = function(e) {
+      e.stopPropagation();
+      if (!isLogged) {
+        window.location.href = 'login.html';
+      } else {
+        const id = card.getAttribute('data-id');
+        window.location.href = `detalle.html?id=${id}&accion=aceptar`;
+      }
+    };
+    // Botón Invitar/Retar
+    card.querySelector('.btn-invitar').onclick = function(e) {
+      e.stopPropagation();
+      abrirModalInvitar(card.getAttribute('data-id'));
+    };
+    // Botón Compartir
+    card.querySelector('.btn-compartir').onclick = function(e) {
+      e.stopPropagation();
+      alert('Función de compartir próximamente');
+    };
+    // Click en la card completa (solo si no fue un botón)
+    card.onclick = function(e) {
+      // Si el click fue directamente en la card y no en un botón hijo
+      if (e.target === card) {
+        if (!isLogged) {
+          window.location.href = 'login.html';
+        } else {
+          const id = card.getAttribute('data-id');
+          window.location.href = `detalle.html?id=${id}`;
+        }
+      }
+    };
+  });
 
-  <footer>
-    <p><a href="index.html">⬅ Volver al inicio</a></p>
-  </footer>
+  // Modal Invitar/Retar
+  function abrirModalInvitar(id) {
+    document.getElementById('modalInvitar').style.display = 'flex';
+    // Actualiza el enlace dinámicamente según el id
+    document.querySelector('#modalInvitar input[type="text"][readonly]').value = `https://defyx.com/desafio/${id}`;
+  }
+  function cerrarModalInvitar() {
+    document.getElementById('modalInvitar').style.display = 'none';
+  }
+  // Cierra el modal si se hace click fuera del contenido
+  window.onclick = function(event) {
+    const modal = document.getElementById('modalInvitar');
+    if (event.target === modal) {
+      cerrarModalInvitar();
+    }
+  };
+  </script>
 </body>
 </html>

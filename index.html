@@ -114,28 +114,37 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .tabs {
+    .main-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #23272a;
+      border-top: 1px solid #222;
       display: flex;
-      justify-content: space-between;
-      border-bottom: 2px solid #23272a;
-      margin: 0 0 0.5rem 0;
-      font-size: 1.05rem;
-      font-weight: 600;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 10;
+    }
+    .main-nav a {
       color: #b0b0b0;
-      background: #18191a;
-    }
-    .tabs .tab {
+      font-size: 1.7rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.2rem 0;
       flex: 1;
-      text-align: center;
-      padding: 0.9rem 0 0.7rem 0;
-      cursor: pointer;
-      border-bottom: 2.5px solid transparent;
-      transition: border 0.2s;
+      transition: color 0.2s;
+      font-weight: 600;
     }
-    .tabs .tab.active {
-      color: #fff;
-      border-bottom: 2.5px solid #1da1f2;
-      background: #18191a;
+    .main-nav a.active,
+    .main-nav a:hover {
+      color: #1da1f2;
+    }
+    .main-nav a span:last-child {
+      font-size: 0.85rem;
+      margin-top: 0.1rem;
+      letter-spacing: 0.5px;
     }
     .section-title {
       color: #b0b0b0;
@@ -229,30 +238,6 @@
       gap: 0.3rem;
       cursor: pointer;
     }
-    .bottom-nav {
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      background: #23272a;
-      border-top: 1px solid #222;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 56px;
-      z-index: 10;
-    }
-    .bottom-nav button {
-      background: none;
-      border: none;
-      color: #b0b0b0;
-      font-size: 1.7rem;
-      padding: 0;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .bottom-nav button.active,
-    .bottom-nav button:hover {
-      color: #1da1f2;
-    }
     .hidden { display: none !important; }
     .tab-section { animation: fadein 0.2s; }
     @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
@@ -272,6 +257,54 @@
       .profile-info {
         margin-left: 80px;
       }
+    }
+    /* Modal styles */
+    #loginModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    #loginModal .modal-content {
+      background: #23272a;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 24px #0008;
+      min-width: 260px;
+      max-width: 90vw;
+    }
+    #loginModal .modal-content p {
+      font-size: 1.1rem;
+      margin-bottom: 1.2rem;
+    }
+    #loginModal .modal-content button {
+      margin: 0 0.5rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 2rem;
+      border: none;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #loginModal .modal-content .btn-acceso {
+      background: #1da1f2;
+      color: #fff;
+    }
+    #loginModal .modal-content .btn-cancelar {
+      background: #444;
+      color: #fff;
+    }
+    #loginModal .modal-content .btn-acceso:hover {
+      background: #2196f3;
+    }
+    #loginModal .modal-content .btn-cancelar:hover {
+      background: #666;
     }
   </style>
 </head>
@@ -303,216 +336,64 @@
       </button>
     </div>
   </div>
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('masvistos', this)">MÁS VISTOS</div>
-    <div class="tab" onclick="showTab('destacados', this)">DESTACADOS</div>
-    <div class="tab" onclick="showTab('desafiar', this)">DESAFIAR</div>
-    <div class="tab" onclick="showTab('crear', this)">CREAR</div>
-  </div>
-
-  <!-- Secciones de cada tab -->
-  <div id="tab-masvistos" class="tab-section">
-    <div class="section-title">RECIENTE</div>
-    <div class="feed-list">
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">DX</div>
-          <div class="feed-user">DefyX</div>
-          <div class="feed-time">hace 1h</div>
-        </div>
-        <div class="feed-title">Desafío: Baile TikTok</div>
-        <div class="feed-desc">Graba un video bailando la coreografía viral del mes. ¡Súbelo y reta a tus amigos!</div>
-        <div class="feed-media">
-          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 120</span>
-          <span>💬 18</span>
-          <span>🔓 Desbloqueado</span>
-        </div>
+  <div class="section-title">RECIENTE</div>
+  <div class="feed-list">
+    <div class="feed-card">
+      <div class="feed-header">
+        <div class="feed-avatar">DX</div>
+        <div class="feed-user">DefyX</div>
+        <div class="feed-time">hace 1h</div>
+      </div>
+      <div class="feed-title">Desafío: Baile TikTok</div>
+      <div class="feed-desc">Graba un video bailando la coreografía viral del mes. ¡Súbelo y reta a tus amigos!</div>
+      <div class="feed-media">
+        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
+      </div>
+      <div class="feed-actions">
+        <span>❤️ 120</span>
+        <span>💬 18</span>
+        <span>🔓 Desbloqueado</span>
       </div>
     </div>
   </div>
-  <div id="tab-destacados" class="tab-section hidden">
-    <div class="section-title">DESTACADOS</div>
-    <div class="feed-list">
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">JU</div>
-          <div class="feed-user">Juanita</div>
-          <div class="feed-time">hace 3h</div>
-        </div>
-        <div class="feed-title">Desafío: Foto Creativa</div>
-        <div class="feed-desc">Toma una foto original usando solo objetos azules. ¡Demuestra tu creatividad!</div>
-        <div class="feed-media">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Desafío foto creativa">
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 89</span>
-          <span>💬 7</span>
-          <span>🔓 Desbloqueado</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="tab-desafiar" class="tab-section hidden">
-    <div class="section-title">DESAFIAR</div>
-    <div class="section-desc" style="color:#b0b0b0; margin: 0 1.2rem 1rem 1.2rem; font-size:1rem;">
-      ¡Invita y desafía a quien tú quieras! Elige un reto prediseñado y comparte la experiencia con tus amigos o la comunidad.
-    </div>
-    <div class="feed-list">
-      <!-- Desafío 1 -->
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">DX</div>
-          <div class="feed-user">DefyX</div>
-          <div class="feed-time">hace 1h</div>
-        </div>
-        <div class="feed-title">Camina 10km en la ciudad</div>
-        <div class="feed-desc">Explora tu ciudad a pie y registra la experiencia.</div>
-        <div class="feed-media">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Camina 10km en la ciudad">
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 120</span>
-          <span>💬 18</span>
-          <span>Gratis</span>
-        </div>
-      </div>
-      <!-- Desafío 2 -->
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">JU</div>
-          <div class="feed-user">Juanita</div>
-          <div class="feed-time">hace 2h</div>
-        </div>
-        <div class="feed-title">Comida sin manos</div>
-        <div class="feed-desc">Come una hamburguesa sin usar las manos. ¡Graba el reto!</div>
-        <div class="feed-media">
-          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"></video>
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 89</span>
-          <span>💬 7</span>
-          <span>$500</span>
-        </div>
-      </div>
-      <!-- Desafío 3 -->
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">DX</div>
-          <div class="feed-user">DefyX</div>
-          <div class="feed-time">hace 3h</div>
-        </div>
-        <div class="feed-title">Desafío TikTok</div>
-        <div class="feed-desc">Haz la coreografía viral del mes y compártela.</div>
-        <div class="feed-media">
-          <video src="https://www.w3schools.com/html/movie.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 67</span>
-          <span>💬 4</span>
-          <span>Gratis</span>
-        </div>
-      </div>
-      <!-- Desafío 4 -->
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">JU</div>
-          <div class="feed-user">Juanita</div>
-          <div class="feed-time">hace 4h</div>
-        </div>
-        <div class="feed-title">Selfie con extraños</div>
-        <div class="feed-desc">Tómate una selfie con 3 personas desconocidas.</div>
-        <div class="feed-media">
-          <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Selfie con extraños">
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 55</span>
-          <span>💬 2</span>
-          <span>$200</span>
-        </div>
-      </div>
-      <!-- Desafío 5 -->
-      <div class="feed-card">
-        <div class="feed-header">
-          <div class="feed-avatar">MA</div>
-          <div class="feed-user">Marcos</div>
-          <div class="feed-time">hace 5h</div>
-        </div>
-        <div class="feed-title">Maratón de deportes</div>
-        <div class="feed-desc">Practica 3 deportes distintos en un día y sube evidencia.</div>
-        <div class="feed-media">
-          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
-        </div>
-        <div class="feed-actions">
-          <span>❤️ 40</span>
-          <span>💬 1</span>
-          <span>$1000</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="tab-crear" class="tab-section hidden">
-    <div class="section-title">CREAR</div>
-    <div style="color:#b0b0b0;text-align:center;">Próximamente podrás crear tus propios desafíos aquí.</div>
-  </div>
-  <nav class="bottom-nav">
-    <button class="active" title="Inicio">🏠</button>
-    <button title="Buscar">🔍</button>
-    <button title="Crear">➕</button>
-    <button title="Notificaciones">🔔</button>
-    <button title="Perfil">👤</button>
+  <nav class="main-nav">
+    <a href="index.html" class="active" title="Inicio"><span>🏠</span><span>Inicio</span></a>
+    <a href="explorar.html" title="Explorar"><span>🔥</span><span>Explorar</span></a>
+    <a href="subir.html" title="Crear"><span>➕</span><span>Crear</span></a>
+    <a href="notificaciones.html" title="Notificaciones"><span>🔔</span><span>Notificaciones</span></a>
+    <a href="perfil.html" title="Perfil"><span>👤</span><span>Perfil</span></a>
   </nav>
- <script>
-  // Simulación de login (puedes reemplazar por tu lógica real)
-  let isLogged = false;
+  <!-- Modal para login/suscripción -->
+  <div id="loginModal">
+    <div class="modal-content">
+      <p>Debes iniciar sesión o suscribirte para ver este desafío.<br>¿Deseas inscribirte ahora?</p>
+      <button class="btn-acceso" id="accesoBtn">Suscribirme/Iniciar sesión</button>
+      <button class="btn-cancelar" id="cancelarBtn">Cancelar</button>
+    </div>
+  </div>
+  <script>
+    // Simulación de login (puedes reemplazar por tu lógica real)
+    let isLogged = false;
 
-  // Cambia de pestaña y vuelve a asignar eventos
-  function showTab(tab, el) {
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
-    document.getElementById('tab-' + tab).classList.remove('hidden');
-    document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    asignarEventosDesafios(tab);
-  }
+    // Modal
+    const loginModal = document.getElementById('loginModal');
+    const accesoBtn = document.getElementById('accesoBtn');
+    const cancelarBtn = document.getElementById('cancelarBtn');
 
-  // Asigna el evento solo a los desafíos de la sección DESAFIAR
-  function asignarEventosDesafios(tabActiva) {
-    // Limpia eventos previos
-    document.querySelectorAll('.feed-card').forEach(card => {
-      card.style.cursor = 'pointer';
-      card.onclick = null;
-    });
+    accesoBtn.onclick = function() {
+      loginModal.style.display = 'none';
+      window.location.href = 'acceso.html';
+    };
+    cancelarBtn.onclick = function() {
+      loginModal.style.display = 'none';
+    };
 
-    if (tabActiva === 'desafiar') {
-      document.querySelectorAll('#tab-desafiar .feed-card').forEach(card => {
-        card.onclick = function(e) {
-          // Permite reproducir video o imagen sin disparar el evento
-          if (e.target.tagName === 'VIDEO' || e.target.tagName === 'IMG' || e.target.closest('.feed-media')) return;
-          if (isLogged) {
-            alert("¡Acceso al desafío desbloqueado!");
-          } else {
-            if (confirm("Debes iniciar sesión o suscribirte para ver este desafío. ¿Deseas inscribirte ahora?")) {
-              window.location.href = 'acceso.html';
-            }
-            // Si cancela, no hace nada y se queda en la sección
-          }
-        };
-      });
-    }
-  }
-
-  // Inicializa eventos al cargar la página (por defecto en MÁS VISTOS)
-  document.addEventListener('DOMContentLoaded', function() {
-    asignarEventosDesafios('masvistos');
-    // También asigna eventos si el usuario entra directo a DESAFIAR
-    document.querySelectorAll('.tabs .tab').forEach(tabBtn => {
-      tabBtn.addEventListener('click', function() {
-        // El evento showTab ya se encarga de llamar a asignarEventosDesafios
-      });
-    });
-  });
-</script>
+    // Cierra el modal si se hace click fuera del contenido
+    window.onclick = function(event) {
+      if (event.target === loginModal) {
+        loginModal.style.display = "none";
+      }
+    };
+  </script>
 </body>
 </html>

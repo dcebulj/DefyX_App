@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis desafíos | DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #18191a;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .mis-desafios-header {
+      padding: 1.5rem 1.2rem 0.5rem 1.2rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1da1f2;
+      letter-spacing: 1px;
+    }
+    .mis-desafios-section {
+      margin: 1.8rem 0 1rem 0;
+      padding: 0 1rem;
+    }
+    .mis-desafios-section h2 {
+      color: #b0b0b0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+      letter-spacing: 1px;
+    }
+    .desafios-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .card-desafio {
+      background: #23272a;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 8px #0002;
+      padding: 1rem 1rem 0.7rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+    }
+    .card-title {
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: #4fc3f7;
+    }
+    .card-desc {
+      color: #e0e0e0;
+      font-size: 0.98rem;
+      margin-bottom: 0.3rem;
+    }
+    .btn-accion {
+      background: #1da1f2;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-right: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .btn-accion:hover {
+      background: #2196f3;
+    }
+    .btn-secundario {
+      background: #444;
+      color: #fff;
+    }
+    .main-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #23272a;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 10;
+    }
+    .main-nav a {
+      color: #b0b0b0;
+      font-size: 1.7rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.2rem 0;
+      flex: 1;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+    .main-nav a.active,
+    .main-nav a:hover {
+      color: #1da1f2;
+    }
+    .main-nav a span:last-child {
+      font-size: 0.85rem;
+      margin-top: 0.1rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="mis-desafios-header">Mis desafíos</div>
+
+  <div class="mis-desafios-section" id="pendientes-aceptar">
+    <h2>Pendientes de aceptar/rechazar</h2>
+    <div class="desafios-list"></div>
+  </div>
+
+  <div class="mis-desafios-section" id="pendientes-realizar">
+    <h2>Pendientes de realizar</h2>
+    <div class="desafios-list"></div>
+  </div>
+
+  <div class="mis-desafios-section" id="realizados">
+    <h2>Realizados</h2>
+    <div class="desafios-list"></div>
+  </div>
+
+  <nav class="main-nav">
+    <a href="index.html" title="Inicio"><span>🏠</span><span>Inicio</span></a>
+    <a href="explorar.html" title="Explorar"><span>🔥</span><span>Explorar</span></a>
+    <a href="mis-desafios.html" class="active" title="Mis desafíos"><span>🎯</span><span>Mis desafíos</span></a>
+    <a href="notificaciones.html" title="Notificaciones"><span>🔔</span><span>Notificaciones</span></a>
+    <a href="perfil.html" title="Perfil"><span>👤</span><span>Perfil</span></a>
+  </nav>
+
+  <script>
+    // Datos de ejemplo
+    let pendientesAceptar = [
+      { id: 1, titulo: "Desafío TikTok", desc: "Te han retado a hacer la coreografía viral." },
+      { id: 2, titulo: "Selfie en la plaza", desc: "Te han invitado a sacarte una selfie en la plaza central." }
+    ];
+    let pendientesRealizar = [
+      { id: 3, titulo: "Camina 10km en la ciudad", desc: "Aceptaste este desafío. ¡Sube tu evidencia!" }
+    ];
+    let realizados = [
+      { id: 4, titulo: "Comida sin manos", desc: "¡Desafío completado!" }
+    ];
+
+    function renderizarDesafios() {
+      // Pendientes de aceptar/rechazar
+      const listaAceptar = document.querySelector('#pendientes-aceptar .desafios-list');
+      listaAceptar.innerHTML = '';
+      pendientesAceptar.forEach(d => {
+        const card = document.createElement('div');
+        card.className = 'card-desafio';
+        card.innerHTML = `
+          <div class="card-title">${d.titulo}</div>
+          <div class="card-desc">${d.desc}</div>
+          <button class="btn-accion btn-aceptar">Aceptar</button>
+          <button class="btn-accion btn-secundario btn-rechazar">Rechazar</button>
+        `;
+        // Acciones
+        card.querySelector('.btn-aceptar').onclick = () => {
+          pendientesRealizar.push({ id: d.id, titulo: d.titulo, desc: "Aceptaste este desafío. ¡Sube tu evidencia!" });
+          pendientesAceptar = pendientesAceptar.filter(x => x.id !== d.id);
+          renderizarDesafios();
+        };
+        card.querySelector('.btn-rechazar').onclick = () => {
+          pendientesAceptar = pendientesAceptar.filter(x => x.id !== d.id);
+          renderizarDesafios();
+        };
+        listaAceptar.appendChild(card);
+      });
+
+      // Pendientes de realizar
+      const listaRealizar = document.querySelector('#pendientes-realizar .desafios-list');
+      listaRealizar.innerHTML = '';
+      pendientesRealizar.forEach(d => {
+        const card = document.createElement('div');
+        card.className = 'card-desafio';
+        card.innerHTML = `
+          <div class="card-title">${d.titulo}</div>
+          <div class="card-desc">${d.desc}</div>
+          <button class="btn-accion btn-evidencia">Subir evidencia</button>
+        `;
+        card.querySelector('.btn-evidencia').onclick = () => {
+          realizados.push({ id: d.id, titulo: d.titulo, desc: "¡Desafío completado!" });
+          pendientesRealizar = pendientesRealizar.filter(x => x.id !== d.id);
+          renderizarDesafios();
+        };
+        listaRealizar.appendChild(card);
+      });
+
+      // Realizados
+      const listaRealizados = document.querySelector('#realizados .desafios-list');
+      listaRealizados.innerHTML = '';
+      realizados.forEach(d => {
+        const card = document.createElement('div');
+        card.className = 'card-desafio';
+        card.innerHTML = `
+          <div class="card-title">${d.titulo}</div>
+          <div class="card-desc">${d.desc}</div>
+          <button class="btn-accion btn-ver">Ver evidencia</button>
+        `;
+        card.querySelector('.btn-ver').onclick = () => {
+          alert('Aquí podrías mostrar la evidencia subida para este desafío.');
+        };
+        listaRealizados.appendChild(card);
+      });
+    }
+    renderizarDesafios();
+  </script>
+  <script>
+  // ...existing code...
+
+  function renderizarDesafios() {
+    // ...pendientes de aceptar/rechazar...
+    // ...pendientes de realizar...
+
+    // Realizados
+    const listaRealizados = document.querySelector('#realizados .desafios-list');
+    listaRealizados.innerHTML = '';
+    realizados.forEach(d => {
+      // Estado de privacidad (por defecto privado)
+      if (d.publico === undefined) d.publico = false;
+
+      const card = document.createElement('div');
+      card.className = 'card-desafio';
+      card.innerHTML = `
+        <div class="card-title">${d.titulo}</div>
+        <div class="card-desc">${d.desc}</div>
+        <div style="margin-bottom:0.5rem;">
+          <button class="btn-accion btn-ver">Ver evidencia</button>
+          <button class="btn-accion btn-privacidad">${d.publico ? 'Privado' : 'Hacer público'}</button>
+          <button class="btn-accion btn-compartir" ${d.publico ? '' : 'disabled style="opacity:0.5;cursor:not-allowed;"'}>Compartir</button>
+        </div>
+        <div style="font-size:0.95rem; color:#b0b0b0;">
+          Estado: <b>${d.publico ? 'Público' : 'Privado'}</b>
+        </div>
+      `;
+      // Ver evidencia
+      card.querySelector('.btn-ver').onclick = () => {
+        alert('Aquí podrías mostrar la evidencia subida para este desafío.');
+      };
+      // Cambiar privacidad
+      card.querySelector('.btn-privacidad').onclick = () => {
+        d.publico = !d.publico;
+        renderizarDesafios();
+      };
+      // Compartir (solo si es público)
+      card.querySelector('.btn-compartir').onclick = () => {
+        if (d.publico) {
+          alert('Compartir en redes sociales: aquí podrías abrir el diálogo de compartir.');
+        }
+      };
+      listaRealizados.appendChild(card);
+    });
+  }
+
+  renderizarDesafios();
+</script>
+</body>
+</html>
