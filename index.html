@@ -239,7 +239,112 @@
       cursor: pointer;
     }
     .hidden { display: none !important; }
-    .tab-section { animation: fadein 0.2s; }
+    .tab-bar {
+      display: flex;
+      background: #23272a;
+      border-radius: 1.5rem;
+      margin: 1.2rem 1.2rem 0.5rem 1.2rem;
+      overflow: hidden;
+      box-shadow: 0 2px 8px #0002;
+    }
+    .tab-bar-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #b0b0b0;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 0.9rem 0;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+    }
+    .tab-bar-btn.active {
+      background: #1da1f2;
+      color: #fff;
+    }
+    .tab-section {
+      display: none;
+      animation: fadein 0.2s;
+    }
+    .tab-section.active {
+      display: block;
+    }
+    .top-user-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #23272a;
+      border-radius: 1rem;
+      padding: 0.7rem 1rem;
+      margin-bottom: 0.7rem;
+    }
+    .top-user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #1da1f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      font-weight: bold;
+    }
+    .top-user-info {
+      flex: 1;
+    }
+    .top-user-nombre {
+      font-weight: bold;
+      font-size: 1.08rem;
+    }
+    .top-user-desafios {
+      color: #ffd700;
+      font-size: 0.97rem;
+    }
+    /* Barra de progreso personal y medalla */
+    .user-progress {
+      margin: 1.2rem;
+      background: #23272a;
+      border-radius: 1rem;
+      padding: 1rem;
+      color: #fff;
+    }
+    .user-progress-bar-bg {
+      background: #444;
+      border-radius: 1rem;
+      overflow: hidden;
+      height: 12px;
+      margin: 0.5rem 0 0.7rem 0;
+    }
+    .user-progress-bar {
+      background: #1da1f2;
+      height: 100%;
+      transition: width 0.4s;
+    }
+    .user-medalla {
+      font-size: 1.1rem;
+      color: #ffd700;
+      margin-top: 0.3rem;
+    }
+    .ranking-section {
+      background: #23272a;
+      border-radius: 1rem;
+      margin: 1.2rem;
+      padding: 1rem;
+      color: #fff;
+    }
+    .ranking-title {
+      font-weight: bold;
+      color: #4fc3f7;
+      margin-bottom: 0.7rem;
+      font-size: 1.08rem;
+    }
+    .ranking-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      font-size: 0.98rem;
+    }
     @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
     @media (max-width: 500px) {
       .header-logo-bg {
@@ -257,54 +362,6 @@
       .profile-info {
         margin-left: 80px;
       }
-    }
-    /* Modal styles */
-    #loginModal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.5);
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    #loginModal .modal-content {
-      background: #23272a;
-      padding: 2rem 1.5rem 1.5rem 1.5rem;
-      border-radius: 1rem;
-      text-align: center;
-      color: #fff;
-      box-shadow: 0 4px 24px #0008;
-      min-width: 260px;
-      max-width: 90vw;
-    }
-    #loginModal .modal-content p {
-      font-size: 1.1rem;
-      margin-bottom: 1.2rem;
-    }
-    #loginModal .modal-content button {
-      margin: 0 0.5rem;
-      padding: 0.7rem 1.5rem;
-      border-radius: 2rem;
-      border: none;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    #loginModal .modal-content .btn-acceso {
-      background: #1da1f2;
-      color: #fff;
-    }
-    #loginModal .modal-content .btn-cancelar {
-      background: #444;
-      color: #fff;
-    }
-    #loginModal .modal-content .btn-acceso:hover {
-      background: #2196f3;
-    }
-    #loginModal .modal-content .btn-cancelar:hover {
-      background: #666;
     }
   </style>
 </head>
@@ -336,26 +393,104 @@
       </button>
     </div>
   </div>
-  <div class="section-title">RECIENTE</div>
-  <div class="feed-list">
-    <div class="feed-card">
-      <div class="feed-header">
-        <div class="feed-avatar">DX</div>
-        <div class="feed-user">DefyX</div>
-        <div class="feed-time">hace 1h</div>
-      </div>
-      <div class="feed-title">Desafío: Baile TikTok</div>
-      <div class="feed-desc">Graba un video bailando la coreografía viral del mes. ¡Súbelo y reta a tus amigos!</div>
-      <div class="feed-media">
-        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
-      </div>
-      <div class="feed-actions">
-        <span>❤️ 120</span>
-        <span>💬 18</span>
-        <span>🔓 Desbloqueado</span>
+
+  <!-- Barra de progreso personal y medalla -->
+  <div class="user-progress">
+    <div><b>Tu progreso:</b> <span id="progreso-desafios">3</span>/10 desafíos completados</div>
+    <div class="user-progress-bar-bg">
+      <div class="user-progress-bar" id="barra-progreso" style="width:30%"></div>
+    </div>
+    <div class="user-medalla">🏅 Medalla: <span id="nombre-medalla">Principiante</span></div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab-bar-btn active" onclick="mostrarTab('todos', this)">Todos los desafíos</button>
+    <button class="tab-bar-btn" onclick="mostrarTab('populares', this)">Desafíos más realizados</button>
+    <button class="tab-bar-btn" onclick="mostrarTab('usuarios', this)">Top Usuarios</button>
+  </div>
+
+  <!-- Todos los desafíos -->
+  <div id="tab-todos" class="tab-section active">
+    <div class="section-title">RECIENTE</div>
+    <div class="feed-list" id="feed-list">
+      <!-- Aquí se pueden agregar dinámicamente los desafíos retados -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar">DX</div>
+          <div class="feed-user">DefyX</div>
+          <div class="feed-time">hace 1h</div>
+        </div>
+        <div class="feed-title">Desafío: Baile TikTok</div>
+        <div class="feed-desc">Graba un video bailando la coreografía viral del mes. ¡Súbelo y reta a tus amigos!</div>
+        <div class="feed-media">
+          <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"></video>
+        </div>
+        <div class="feed-actions">
+          <span class="btn-like" style="cursor:pointer;">❤️ <span class="like-count">120</span></span>
+          <span class="btn-comentarios" style="cursor:pointer;">💬 <span class="comentario-count">18</span></span>
+          <span>🔓 Desbloqueado</span>
+          <span class="btn-invitar" style="cursor:pointer;">🤝 Invitar</span>
+          <span class="btn-aceptar" style="cursor:pointer;">✅ Aceptar</span>
+          <span class="btn-compartir" style="cursor:pointer;">🔗 Compartir</span>
+        </div>
+        <div class="feed-comentarios">
+          <div class="comentario"><b>@juanita:</b> ¡Me encantó este reto!</div>
+          <div class="comentario"><b>@marcos:</b> Lo hice con mis amigos, muy entretenido.</div>
+          <div class="comentario ver-mas-comentarios" style="color:#4fc3f7;cursor:pointer;">Ver más comentarios</div>
+          <div class="comentarios-extra" style="display:none;">
+            <div class="comentario"><b>@sofia:</b> ¿Alguien más lo intentó en el parque?</div>
+            <div class="comentario"><b>@lucas:</b> ¡Suban sus videos!</div>
+          </div>
+          <form class="form-comentar" style="margin-top:0.7rem; display:none;">
+            <input type="text" class="input-comentario" placeholder="Escribe un comentario..." style="width:70%;padding:0.4rem 1rem;border-radius:1rem;border:none;">
+            <button type="submit" class="btn-accion" style="padding:0.4rem 1.2rem;font-size:0.97rem;">Comentar</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Desafíos más realizados -->
+  <div id="tab-populares" class="tab-section">
+    <div class="ranking-section">
+      <div class="ranking-title">🔥 Desafíos más realizados</div>
+      <ol class="ranking-list">
+        <li>Baile TikTok – 150 veces</li>
+        <li>Comida sin manos – 120 veces</li>
+        <li>Selfie con extraños – 90 veces</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Top Usuarios -->
+  <div id="tab-usuarios" class="tab-section">
+    <div class="ranking-section">
+      <div class="ranking-title">🏆 Top Usuarios</div>
+      <div class="top-user-card">
+        <div class="top-user-avatar">J</div>
+        <div class="top-user-info">
+          <div class="top-user-nombre">@juanita</div>
+          <div class="top-user-desafios">12 desafíos realizados</div>
+        </div>
+      </div>
+      <div class="top-user-card">
+        <div class="top-user-avatar">M</div>
+        <div class="top-user-info">
+          <div class="top-user-nombre">@marcos</div>
+          <div class="top-user-desafios">10 desafíos realizados</div>
+        </div>
+      </div>
+      <div class="top-user-card">
+        <div class="top-user-avatar">S</div>
+        <div class="top-user-info">
+          <div class="top-user-nombre">@sofia</div>
+          <div class="top-user-desafios">8 desafíos realizados</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <nav class="main-nav">
     <a href="index.html" class="active" title="Inicio"><span>🏠</span><span>Inicio</span></a>
     <a href="explorar.html" title="Explorar"><span>🔥</span><span>Explorar</span></a>
@@ -371,7 +506,53 @@
       <button class="btn-cancelar" id="cancelarBtn">Cancelar</button>
     </div>
   </div>
+  <!-- Modal Invitar/Retar mejorado -->
+  <div id="modalInvitar" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:2000;">
+    <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; text-align:center; color:#fff; min-width:260px; max-width:90vw;">
+      <h3>Invitar / Retar a un desafío</h3>
+      <input type="text" id="inputUsuarioInvitar" placeholder="Usuario, grupo o email" style="padding:0.5rem 1rem; border-radius:1rem; border:none; margin-bottom:1rem; width:90%;">
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;margin-bottom:0.5rem;">Visibilidad:</label>
+        <select id="selectVisibilidad" style="padding:0.4rem 1rem; border-radius:1rem; border:none; width:90%;">
+          <option value="publico">Público</option>
+          <option value="grupo">Grupo (amigos, familia, etc)</option>
+          <option value="privado">Privado</option>
+        </select>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <button class="btn-accion" onclick="enviarInvitacionDesafio();">Enviar invitación</button>
+        <button class="btn-accion" onclick="cerrarModalInvitar();" style="background:#444;">Cancelar</button>
+      </div>
+      <div>
+        <span style="font-size:0.95rem; color:#b0b0b0;">O comparte el enlace:</span>
+        <input type="text" value="https://defyx.com/desafio/1" readonly style="width:90%; margin-top:0.5rem; border-radius:1rem; border:none; padding:0.4rem;">
+        <button class="btn-accion" onclick="alert('Enlace copiado!')">Copiar enlace</button>
+      </div>
+    </div>
+  </div>
   <script>
+    // Barra de progreso personal y medalla
+    const completados = 3; // Cambia por el número real de desafíos completados del usuario
+    const meta = 10;
+    const medallas = [
+      { nombre: "Principiante", min: 0, max: 4, emoji: "🏅" },
+      { nombre: "Intermedio", min: 5, max: 9, emoji: "🥈" },
+      { nombre: "Experto", min: 10, max: 99, emoji: "🥇" }
+    ];
+    document.getElementById('progreso-desafios').textContent = completados;
+    document.getElementById('barra-progreso').style.width = Math.min(100, (completados/meta)*100) + "%";
+    const medalla = medallas.find(m => completados >= m.min && completados <= m.max) || medallas[0];
+    document.getElementById('nombre-medalla').textContent = medalla.nombre;
+    document.querySelector('.user-medalla').textContent = `${medalla.emoji} Medalla: ${medalla.nombre}`;
+
+    // Tabs tipo barra
+    function mostrarTab(tab, btn) {
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.querySelectorAll('.tab-bar-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
     // Simulación de login (puedes reemplazar por tu lógica real)
     let isLogged = false;
 
@@ -390,10 +571,362 @@
 
     // Cierra el modal si se hace click fuera del contenido
     window.onclick = function(event) {
+      const modal = document.getElementById('modalInvitar');
+      if (event.target === modal) {
+        cerrarModalInvitar();
+      }
       if (event.target === loginModal) {
         loginModal.style.display = "none";
       }
     };
+
+    // --- Interacciones de feed ---
+    document.querySelectorAll('.feed-card').forEach(card => {
+      // Mostrar más comentarios
+      const verMas = card.querySelector('.ver-mas-comentarios');
+      const extra = card.querySelector('.comentarios-extra');
+      if (verMas && extra) {
+        verMas.onclick = () => {
+          extra.style.display = extra.style.display === 'none' ? 'block' : 'none';
+          verMas.textContent = extra.style.display === 'none' ? 'Ver más comentarios' : 'Ver menos comentarios';
+        };
+      }
+
+      // Mostrar formulario de comentar si está logeado
+      const formComentar = card.querySelector('.form-comentar');
+      if (formComentar) {
+        if (isLogged) {
+          formComentar.style.display = 'flex';
+          formComentar.onsubmit = function(e) {
+            e.preventDefault();
+            const input = formComentar.querySelector('.input-comentario');
+            if (input.value.trim()) {
+              const nuevo = document.createElement('div');
+              nuevo.className = 'comentario';
+              nuevo.innerHTML = `<b>@tú:</b> ${input.value}`;
+              extra ? extra.appendChild(nuevo) : card.querySelector('.feed-comentarios').appendChild(nuevo);
+              input.value = '';
+            }
+          };
+        }
+      }
+
+      // Like
+      const btnLike = card.querySelector('.btn-like');
+      if (btnLike) {
+        btnLike.onclick = () => {
+          if (!isLogged) {
+            loginModal.style.display = 'flex';
+          } else {
+            const count = btnLike.querySelector('.like-count');
+            count.textContent = parseInt(count.textContent) + 1;
+          }
+        };
+      }
+
+      // Invitar/Desafiar
+      const btnInvitar = card.querySelector('.btn-invitar');
+      if (btnInvitar) {
+        btnInvitar.onclick = () => {
+          if (!isLogged) {
+            loginModal.style.display = 'flex';
+          } else {
+            document.getElementById('modalInvitar').style.display = 'flex';
+            window.desafioSeleccionado = card;
+          }
+        };
+      }
+
+      // Aceptar desafío
+      const btnAceptar = card.querySelector('.btn-aceptar');
+      if (btnAceptar) {
+        btnAceptar.onclick = () => {
+          if (!isLogged) {
+            loginModal.style.display = 'flex';
+          } else {
+            const desafio = {
+              id: 1,
+              titulo: "Desafío: Baile TikTok",
+              desc: "Graba un video bailando la coreografía viral del mes. ¡Súbelo y reta a tus amigos!"
+            };
+            let pendientes = JSON.parse(localStorage.getItem('pendientesRealizar') || '[]');
+            if (!pendientes.find(d => d.id === desafio.id)) {
+              pendientes.push(desafio);
+              localStorage.setItem('pendientesRealizar', JSON.stringify(pendientes));
+            }
+            window.location.href = 'detalle.html?id=1&accion=aceptar';
+          }
+        };
+      }
+
+      // Compartir
+      const btnCompartir = card.querySelector('.btn-compartir');
+      if (btnCompartir) {
+        btnCompartir.onclick = () => {
+          if (!isLogged) {
+            loginModal.style.display = 'flex';
+          } else {
+            alert('Función de compartir próximamente');
+          }
+        };
+      }
+    });
+
+    // Modal Invitar/Retar
+    function cerrarModalInvitar() {
+      document.getElementById('modalInvitar').style.display = 'none';
+    }
+
+    // Lógica para enviar invitación/retar con visibilidad y mostrar en feed
+    function enviarInvitacionDesafio() {
+      const usuario = document.getElementById('inputUsuarioInvitar').value.trim();
+      const visibilidad = document.getElementById('selectVisibilidad').value;
+      if (!usuario) {
+        alert("Debes ingresar un usuario, grupo o email.");
+        return;
+      }
+      const usuarioActual = "Tú";
+      let descripcion = "";
+      if (visibilidad === "publico") {
+        descripcion = `<b>${usuarioActual} desafía públicamente a ${usuario}</b>`;
+      } else if (visibilidad === "grupo") {
+        descripcion = `<b>${usuarioActual} desafía a ${usuario} en grupo</b>`;
+      } else {
+        descripcion = `<b>${usuarioActual} desafía de forma privada a ${usuario}</b>`;
+      }
+      const nuevaCard = document.createElement('div');
+      nuevaCard.className = "feed-card";
+      nuevaCard.innerHTML = `
+        <div class="feed-header">
+          <div class="feed-avatar">${usuarioActual[0]}</div>
+          <div class="feed-user">${usuarioActual}</div>
+          <div class="feed-time">ahora</div>
+        </div>
+        <div class="feed-title">Desafío personalizado</div>
+        <div class="feed-desc">${descripcion}<br>¡Acepta o rechaza el reto!</div>
+        <div class="feed-actions">
+          <span class="btn-aceptar" style="cursor:pointer;">✅ Aceptar</span>
+          <span class="btn-rechazar" style="cursor:pointer;">❌ Rechazar</span>
+        </div>
+      `;
+      document.getElementById('feed-list').prepend(nuevaCard);
+
+      // Añade lógica para aceptar/rechazar con comentarios
+      const btnAceptar = nuevaCard.querySelector('.btn-aceptar');
+      const btnRechazar = nuevaCard.querySelector('.btn-rechazar');
+      btnAceptar.onclick = function() {
+        mostrarModalRespuestaDesafio("Desafío personalizado", usuarioActual);
+      };
+      btnRechazar.onclick = function() {
+        mostrarModalRespuestaDesafio("Desafío personalizado", usuarioActual);
+      };
+
+      alert("Invitación enviada.");
+      cerrarModalInvitar();
+    }
+
+    // Modal para aceptar/rechazar desafío recibido
+    function mostrarModalRespuestaDesafio(desafio, deQuien) {
+      const modal = document.createElement('div');
+      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:3000;";
+      modal.innerHTML = `
+        <div style="background:#23272a;padding:2rem 1.5rem;border-radius:1rem;text-align:center;color:#fff;min-width:260px;max-width:90vw;">
+          <h3>Te han retado</h3>
+          <div style="margin-bottom:1rem;">
+            <b>${deQuien}</b> te desafía a:<br>
+            <span style="color:#4fc3f7;">${desafio}</span>
+          </div>
+          <textarea id="comentarioRechazo" placeholder="¿Por qué rechazas? (opcional)" style="width:90%;border-radius:1rem;padding:0.5rem;margin-bottom:1rem;"></textarea>
+          <div>
+            <button class="btn-accion" onclick="aceptarDesafioRecibido(this)">Aceptar</button>
+            <button class="btn-accion" onclick="rechazarDesafioRecibido(this)" style="background:#444;">Rechazar</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      window.aceptarDesafioRecibido = function(btn) {
+        alert("¡Desafío aceptado!");
+        document.body.removeChild(modal);
+      };
+      window.rechazarDesafioRecibido = function(btn) {
+        const motivo = document.getElementById('comentarioRechazo').value;
+        alert("Desafío rechazado" + (motivo ? `: ${motivo}` : "."));
+        document.body.removeChild(modal);
+      };
+    }
   </script>
+  <!-- Agrega esto antes del cierre de </body> -->
+<div id="panel-empresa" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.92); align-items:flex-start; justify-content:center; z-index:4000; overflow:auto;">
+  <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; color:#fff; min-width:320px; max-width:95vw; margin:2rem auto;">
+    <h2>Panel de revisión de evidencias<br><span style="font-size:1rem;color:#4fc3f7;">(Empresa)</span></h2>
+    <div id="lista-evidencias"></div>
+    <button onclick="cerrarPanelEmpresa()" style="margin-top:1rem;background:#444;color:#fff;padding:0.5rem 1.5rem;border-radius:1rem;border:none;">Cerrar</button>
+  </div>
+</div>
+<button onclick="abrirPanelEmpresa()" style="position:fixed;bottom:80px;right:20px;z-index:4100;background:#1da1f2;color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:2rem;box-shadow:0 2px 8px #0005;cursor:pointer;">🏢</button>
+
+<script>
+// Ejemplo de evidencias subidas por usuarios a un desafío de empresa
+let evidencias = [
+  { usuario: "@juan", url: "https://placekitten.com/200/200", estado: "pendiente", comentario: "" },
+  { usuario: "@maria", url: "https://placekitten.com/201/200", estado: "pendiente", comentario: "" }
+];
+
+function abrirPanelEmpresa() {
+  document.getElementById('panel-empresa').style.display = 'flex';
+  renderPanelRevision();
+}
+function cerrarPanelEmpresa() {
+  document.getElementById('panel-empresa').style.display = 'none';
+}
+
+function renderPanelRevision() {
+  const lista = document.getElementById('lista-evidencias');
+  lista.innerHTML = "";
+  evidencias.forEach((e, idx) => {
+    lista.innerHTML += `
+      <div style="background:#18191a;padding:1rem;margin-bottom:1rem;border-radius:1rem;">
+        <b>${e.usuario}</b><br>
+        <img src="${e.url}" alt="evidencia" style="max-width:200px;border-radius:0.7rem;"><br>
+        Estado: <span style="font-weight:bold;">${e.estado}</span><br>
+        <textarea id="comentario${idx}" placeholder="Comentario de rechazo (opcional)" style="width:90%;margin:0.5rem 0;border-radius:1rem;padding:0.5rem;"></textarea><br>
+        <button onclick="aprobar(${idx})" style="background:#4caf50;color:#fff;padding:0.4rem 1.2rem;border-radius:1rem;border:none;margin-right:0.5rem;">Aprobar</button>
+        <button onclick="rechazar(${idx})" style="background:#f44336;color:#fff;padding:0.4rem 1.2rem;border-radius:1rem;border:none;">Rechazar</button>
+        ${e.estado !== "pendiente" && e.comentario ? `<div style="margin-top:0.5rem;color:#ffd700;"><b>Comentario:</b> ${e.comentario}</div>` : ""}
+      </div>
+    `;
+  });
+}
+function aprobar(idx) {
+  evidencias[idx].estado = "aprobada";
+  evidencias[idx].comentario = "";
+  renderPanelRevision();
+  alert("Evidencia aprobada. El usuario será notificado.");
+}
+function rechazar(idx) {
+  evidencias[idx].estado = "rechazada";
+  evidencias[idx].comentario = document.getElementById('comentario'+idx).value;
+  renderPanelRevision();
+  alert("Evidencia rechazada. El usuario será notificado con el motivo.");
+}
+</script>
+<!-- Agrega esto antes del cierre de </body> -->
+<div id="panel-grupo" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.92); align-items:flex-start; justify-content:center; z-index:4000; overflow:auto;">
+  <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; color:#fff; min-width:320px; max-width:95vw; margin:2rem auto;">
+    <h2>Validación grupal de evidencias</h2>
+    <div id="lista-evidencias-grupo"></div>
+    <button onclick="cerrarPanelGrupo()" style="margin-top:1rem;background:#444;color:#fff;padding:0.5rem 1.5rem;border-radius:1rem;border:none;">Cerrar</button>
+  </div>
+</div>
+<button onclick="abrirPanelGrupo()" style="position:fixed;bottom:150px;right:20px;z-index:4100;background:#ffd700;color:#23272a;border:none;border-radius:50%;width:56px;height:56px;font-size:2rem;box-shadow:0 2px 8px #0005;cursor:pointer;">👥</button>
+
+<script>
+// Ejemplo de evidencias grupales
+let evidenciasGrupo = [
+  { usuario: "@ana", url: "https://placekitten.com/202/200", votosValidos: 2, votosNoValidos: 1, comentarios: [], estado: "pendiente" }
+];
+const miembrosGrupo = ["@mama", "@papa", "@hijo", "@ana"]; // Simulación
+
+function abrirPanelGrupo() {
+  document.getElementById('panel-grupo').style.display = 'flex';
+  renderPanelGrupo();
+}
+function cerrarPanelGrupo() {
+  document.getElementById('panel-grupo').style.display = 'none';
+}
+
+function votar(idx, valido) {
+  if (valido) evidenciasGrupo[idx].votosValidos++;
+  else evidenciasGrupo[idx].votosNoValidos++;
+  // Ejemplo: mayoría simple de votos válidos aprueba la evidencia
+  const totalVotos = evidenciasGrupo[idx].votosValidos + evidenciasGrupo[idx].votosNoValidos;
+  if (evidenciasGrupo[idx].votosValidos > miembrosGrupo.length / 2) {
+    evidenciasGrupo[idx].estado = "aprobada";
+    alert("¡Evidencia aprobada por el grupo!");
+  } else if (evidenciasGrupo[idx].votosNoValidos > miembrosGrupo.length / 2) {
+    evidenciasGrupo[idx].estado = "rechazada";
+    alert("Evidencia rechazada por el grupo.");
+  }
+  renderPanelGrupo();
+}
+
+function comentarGrupo(idx) {
+  const comentario = document.getElementById('comentarioGrupo'+idx).value;
+  if (comentario.trim()) {
+    evidenciasGrupo[idx].comentarios.push({ usuario: "@mama", texto: comentario });
+    renderPanelGrupo();
+  }
+}
+
+function renderPanelGrupo() {
+  const lista = document.getElementById('lista-evidencias-grupo');
+  lista.innerHTML = "";
+  evidenciasGrupo.forEach((e, idx) => {
+    lista.innerHTML += `
+      <div style="background:#18191a;padding:1rem;margin-bottom:1rem;border-radius:1rem;">
+        <b>${e.usuario}</b><br>
+        <img src="${e.url}" alt="evidencia" style="max-width:200px;border-radius:0.7rem;"><br>
+        Estado: <span style="font-weight:bold;">${e.estado}</span><br>
+        Votos válidos: ${e.votosValidos} / Votos no válidos: ${e.votosNoValidos}<br>
+        <button onclick="votar(${idx},true)" style="background:#4caf50;color:#fff;padding:0.4rem 1.2rem;border-radius:1rem;border:none;margin-right:0.5rem;">Válido</button>
+        <button onclick="votar(${idx},false)" style="background:#f44336;color:#fff;padding:0.4rem 1.2rem;border-radius:1rem;border:none;">No válido</button>
+        <div style="margin-top:0.5rem;">
+          <input id="comentarioGrupo${idx}" placeholder="Comentar..." style="width:70%;border-radius:1rem;padding:0.4rem;">
+          <button onclick="comentarGrupo(${idx})" style="background:#1da1f2;color:#fff;padding:0.4rem 1.2rem;border-radius:1rem;border:none;">Comentar</button>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <b>Comentarios:</b>
+          ${e.comentarios.map(c => `<div style="color:#b0eaff;"><b>${c.usuario}:</b> ${c.texto}</div>`).join("")}
+        </div>
+      </div>
+    `;
+  });
+}
+// ...script.js o dentro de <script> en index.html...
+
+// GUARDAR UN RETO NUEVO
+function guardarReto(reto) {
+  let retos = JSON.parse(localStorage.getItem('defyx_retos') || '[]');
+  retos.push(reto);
+  localStorage.setItem('defyx_retos', JSON.stringify(retos));
+}
+
+// LEER TODOS LOS RETOS
+function obtenerRetos() {
+  return JSON.parse(localStorage.getItem('defyx_retos') || '[]');
+}
+
+// GUARDAR EVIDENCIA PARA UN RETO (por id)
+function guardarEvidencia(idReto, evidencia) {
+  let evidencias = JSON.parse(localStorage.getItem('defyx_evidencias') || '{}');
+  if (!evidencias[idReto]) evidencias[idReto] = [];
+  evidencias[idReto].push(evidencia);
+  localStorage.setItem('defyx_evidencias', JSON.stringify(evidencias));
+}
+
+// LEER EVIDENCIAS DE UN RETO (por id)
+function obtenerEvidencias(idReto) {
+  let evidencias = JSON.parse(localStorage.getItem('defyx_evidencias') || '{}');
+  return evidencias[idReto] || [];
+}
+
+// EJEMPLO DE USO (puedes borrar esto después de probar)
+guardarReto({
+  id: "reto1",
+  titulo: "Desafío: Foto divertida",
+  descripcion: "Sube una foto graciosa",
+  creador: "usuario1",
+  estado: "pendiente"
+});
+
+guardarEvidencia("reto1", {
+  usuario: "usuario2",
+  url: "foto.jpg",
+  comentario: "¡Listo el reto!"
+});
+
+console.log(obtenerRetos());
+console.log(obtenerEvidencias("reto1"));
+</script>
 </body>
 </html>

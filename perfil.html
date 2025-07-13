@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Perfil - DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #18191a; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+    .perfil-header { background: #23272a; padding: 2rem 1rem 1rem 1rem; text-align: center; }
+    .perfil-avatar { width: 90px; height: 90px; border-radius: 50%; background: #1da1f2; display: inline-flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; font-weight: bold; margin-bottom: 0.5rem; }
+    .perfil-nombre { font-size: 1.5rem; font-weight: bold; margin-bottom: 0.2rem; }
+    .perfil-user { color: #b0b0b0; margin-bottom: 0.5rem; }
+    .perfil-desc { color: #e0e0e0; margin-bottom: 1rem; }
+    .perfil-muro { max-width: 500px; margin: 2rem auto; }
+    .actividad-feed { }
+    .feed-card { background: #23272a; border-radius: 1.1rem; margin-bottom: 1.2rem; padding: 1rem 1rem 0.7rem 1rem; box-shadow: 0 2px 8px #0002; }
+    .feed-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+    .feed-avatar { width: 40px; height: 40px; border-radius: 50%; background: #1da1f2; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; font-weight: bold; }
+    .feed-user { font-weight: bold; font-size: 1rem; color: #fff; }
+    .feed-time { color: #b0b0b0; font-size: 0.92rem; margin-left: auto; }
+    .feed-title { font-size: 1.08rem; font-weight: 600; margin-bottom: 0.2rem; color: #4fc3f7; }
+    .feed-desc { color: #e0e0e0; font-size: 0.97rem; margin-bottom: 0.7rem; }
+    .feed-actions { display: flex; gap: 1.2rem; color: #b0b0b0; font-size: 1.1rem; margin-bottom: 0.2rem; }
+    .feed-actions span { display: flex; align-items: center; gap: 0.3rem; }
+    .tag-publico { color: #1da1f2; font-weight: bold; }
+    .tag-grupo { color: #ffd700; font-weight: bold; }
+    .tag-privado { color: #b0b0b0; font-weight: bold; }
+    .estado-aceptado { color: #4caf50; }
+    .estado-rechazado { color: #f44336; }
+    .estado-pendiente { color: #ff9800; }
+    .feed-visibilidad { font-size: 0.95rem; color: #b0b0b0; margin-bottom: 0.5rem; }
+    .feed-comentarios { margin: 0.5rem 0 0.5rem 0; padding-left: 0.5rem; border-left: 2px solid #333; }
+    .comentario { font-size: 0.97rem; color: #b0eaff; margin-bottom: 0.2rem; }
+    .comentario strong { color: #4fc3f7; }
+  </style>
+</head>
+<body>
+  <div class="perfil-header">
+    <div class="perfil-avatar">T</div>
+    <div class="perfil-nombre">Tú</div>
+    <div class="perfil-user">@tu_usuario</div>
+    <div class="perfil-desc">¡Bienvenido a tu muro! Aquí puedes ver tu actividad y tus desafíos.</div>
+  </div>
+  <div class="perfil-muro">
+    <h2>Mi actividad</h2>
+    <div class="actividad-feed" id="actividad-feed">
+      <!-- Las tarjetas de actividad se insertan aquí por JS -->
+    </div>
+  </div>
+  <script>
+    // Ejemplo de desafíos del usuario con comentarios
+    const desafios = [
+      {
+        titulo: "Desafío: Saltar la cuerda",
+        descripcion: "Tú desafías públicamente a @amigo",
+        visibilidad: "publico",
+        estado: "aceptado",
+        fecha: "hace 2h",
+        quienesVen: "Todos los usuarios pueden ver este desafío y sus comentarios.",
+        comentarios: [
+          { usuario: "@amigo", texto: "¡Acepto el reto!" },
+          { usuario: "@sofia", texto: "¡Qué divertido!" }
+        ]
+      },
+      {
+        titulo: "Desafío: Leer un libro",
+        descripcion: "Tú desafías de forma privada a @amigo2",
+        visibilidad: "privado",
+        estado: "rechazado",
+        fecha: "hace 1d",
+        quienesVen: "Solo tú y @amigo2 pueden ver este desafío y sus comentarios.",
+        comentarios: [
+          { usuario: "@amigo2", texto: "No tengo tiempo esta semana 😅" }
+        ]
+      },
+      {
+        titulo: "Desafío: Foto divertida",
+        descripcion: "Tú desafías a @familia en grupo",
+        visibilidad: "grupo",
+        estado: "pendiente",
+        fecha: "hace 3d",
+        quienesVen: "Solo los miembros del grupo @familia pueden ver este desafío y sus comentarios.",
+        comentarios: [
+          { usuario: "@mama", texto: "¡Vamos a hacerlo juntos!" },
+          { usuario: "@papa", texto: "¿Dónde subo la foto?" }
+        ]
+      }
+    ];
+
+    function visTag(vis) {
+      if (vis === "publico") return '<span class="tag-publico">🔓 Público</span>';
+      if (vis === "grupo") return '<span class="tag-grupo">👥 Grupo</span>';
+      return '<span class="tag-privado">🔒 Privado</span>';
+    }
+    function estadoTag(estado) {
+      if (estado === "aceptado") return '<span class="estado-aceptado">✅ Aceptado</span>';
+      if (estado === "rechazado") return '<span class="estado-rechazado">❌ Rechazado</span>';
+      return '<span class="estado-pendiente">⏳ Pendiente</span>';
+    }
+
+    const feed = document.getElementById('actividad-feed');
+    desafios.forEach(d => {
+      const card = document.createElement('div');
+      card.className = "feed-card";
+      let comentariosHtml = "";
+      if (d.comentarios && d.comentarios.length > 0) {
+        comentariosHtml = `<div class="feed-comentarios"><b>Comentarios:</b><br>` +
+          d.comentarios.map(c => `<div class="comentario"><strong>${c.usuario}:</strong> ${c.texto}</div>`).join("") +
+          `</div>`;
+      }
+      card.innerHTML = `
+        <div class="feed-header">
+          <div class="feed-avatar">T</div>
+          <div class="feed-user">Tú</div>
+          <div class="feed-time">${d.fecha}</div>
+        </div>
+        <div class="feed-title">${d.titulo}</div>
+        <div class="feed-desc"><b>${d.descripcion}</b></div>
+        <div class="feed-visibilidad">${d.quienesVen}</div>
+        ${comentariosHtml}
+        <div class="feed-actions">
+          ${visTag(d.visibilidad)}
+          ${estadoTag(d.estado)}
+        </div>
+      `;
+      feed.appendChild(card);
+    });
+  </script>
+</body>
+</html>

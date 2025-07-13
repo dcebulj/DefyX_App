@@ -20,6 +20,28 @@
       color: #1da1f2;
       letter-spacing: 1px;
     }
+    .filtros-explorar {
+      display: flex;
+      gap: 0.7rem;
+      margin: 0 1.2rem 1.2rem 1.2rem;
+      background: #23272a;
+      border-radius: 1rem;
+      padding: 0.7rem 1rem;
+      box-shadow: 0 2px 8px #0002;
+      flex-wrap: wrap;
+    }
+    .filtros-explorar select {
+      background: #18191a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 1rem;
+      padding: 0.4rem 1rem;
+      font-size: 1rem;
+      outline: none;
+    }
+    .filtros-explorar select:focus {
+      border-color: #1da1f2;
+    }
     .explorar-lista {
       display: flex;
       flex-direction: column;
@@ -130,52 +152,29 @@
 </head>
 <body>
   <div class="explorar-header">Explorar desafíos</div>
-  <div class="explorar-lista">
-    <div class="card-desafio" data-id="1">
-      <img class="card-img" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Desafío 1">
-      <div class="card-info">
-        <div class="card-title">Camina 10km en la ciudad</div>
-        <div class="card-tipo">🙌 Gratis</div>
-        <div class="card-desc">Explora tu ciudad a pie y registra la experiencia.</div>
-        <div class="card-autor">Por <b>DefyX</b></div>
-        <div class="card-actions">
-          <button class="btn-accion btn-ver">Ver detalles</button>
-          <button class="btn-accion btn-aceptar">Aceptar</button>
-          <button class="btn-accion btn-invitar">Invitar/Retar</button>
-          <button class="btn-accion btn-compartir">Compartir</button>
-        </div>
-      </div>
-    </div>
-    <div class="card-desafio" data-id="2">
-      <img class="card-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Desafío 2">
-      <div class="card-info">
-        <div class="card-title">Comida sin manos</div>
-        <div class="card-tipo">💸 $500</div>
-        <div class="card-desc">Come una hamburguesa sin usar las manos. ¡Graba el reto!</div>
-        <div class="card-autor">Por <b>Juanita</b></div>
-        <div class="card-actions">
-          <button class="btn-accion btn-ver">Ver detalles</button>
-          <button class="btn-accion btn-aceptar">Aceptar</button>
-          <button class="btn-accion btn-invitar">Invitar/Retar</button>
-          <button class="btn-accion btn-compartir">Compartir</button>
-        </div>
-      </div>
-    </div>
-    <div class="card-desafio" data-id="3">
-      <img class="card-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Desafío 3">
-      <div class="card-info">
-        <div class="card-title">Desafío TikTok</div>
-        <div class="card-tipo">🎁 Regalo</div>
-        <div class="card-desc">Haz la coreografía viral del mes y compártela.</div>
-        <div class="card-autor">Por <b>DefyX</b></div>
-        <div class="card-actions">
-          <button class="btn-accion btn-ver">Ver detalles</button>
-          <button class="btn-accion btn-aceptar">Aceptar</button>
-          <button class="btn-accion btn-invitar">Invitar/Retar</button>
-          <button class="btn-accion btn-compartir">Compartir</button>
-        </div>
-      </div>
-    </div>
+
+  <!-- Filtros -->
+  <div class="filtros-explorar">
+    <select id="filtro-categoria">
+      <option value="">Todas las categorías</option>
+      <option value="gratis">Gratis</option>
+      <option value="pago">Pago</option>
+      <option value="regalo">Regalo</option>
+    </select>
+    <select id="filtro-valor">
+      <option value="">Todos los valores</option>
+      <option value="menor">Menor valor</option>
+      <option value="mayor">Mayor valor</option>
+    </select>
+    <select id="filtro-masvalorados">
+      <option value="">Ordenar por</option>
+      <option value="masvalorados">Más valorados</option>
+      <option value="recientes">Más recientes</option>
+    </select>
+  </div>
+
+  <div class="explorar-lista" id="explorar-lista">
+    <!-- Las cards se generan dinámicamente -->
   </div>
   <nav class="main-nav">
     <a href="index.html" title="Inicio"><span>🏠</span><span>Inicio</span></a>
@@ -185,18 +184,33 @@
     <a href="perfil.html" title="Perfil"><span>👤</span><span>Perfil</span></a>
   </nav>
 
-  <!-- Modal Invitar/Retar -->
+  <!-- Modal Invitar/Retar mejorado -->
   <div id="modalInvitar" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:2000;">
     <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; text-align:center; color:#fff; min-width:260px; max-width:90vw;">
-      <h3>Invitar a un amigo</h3>
-      <input type="text" placeholder="Buscar usuario o grupo" style="padding:0.5rem 1rem; border-radius:1rem; border:none; margin-bottom:1rem; width:90%;">
+      <h3>Invitar / Retar a un desafío</h3>
+      <input type="text" id="inputUsuarioInvitar" placeholder="Usuario, grupo o email" style="padding:0.5rem 1rem; border-radius:1rem; border:none; margin-bottom:1rem; width:90%;">
       <div style="margin-bottom:1rem;">
-        <button class="btn-accion" onclick="alert('Invitación enviada!'); cerrarModalInvitar();">Enviar invitación</button>
+        <label style="display:block;margin-bottom:0.5rem;">Visibilidad:</label>
+        <select id="selectVisibilidad" style="padding:0.4rem 1rem; border-radius:1rem; border:none; width:90%;" onchange="mostrarOpcionesGrupo()">
+          <option value="privado">Privado (solo la persona/grupo invitado)</option>
+          <option value="publico">Público</option>
+        </select>
+      </div>
+      <div id="opcionesGrupo" style="display:none; margin-bottom:1rem;">
+        <label style="display:block;margin-bottom:0.5rem;">¿A quién será público?</label>
+        <select id="selectPublicoGrupo" style="padding:0.4rem 1rem; border-radius:1rem; border:none; width:90%;">
+          <option value="comunidad">Toda la comunidad</option>
+          <option value="grupo">Solo un grupo específico</option>
+        </select>
+        <input type="text" id="inputNombreGrupo" placeholder="Nombre del grupo (si aplica)" style="margin-top:0.5rem; width:90%; display:none;">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <button class="btn-accion" onclick="enviarInvitacionDesafio();">Enviar invitación</button>
         <button class="btn-accion" onclick="cerrarModalInvitar();" style="background:#444;">Cancelar</button>
       </div>
       <div>
         <span style="font-size:0.95rem; color:#b0b0b0;">O comparte el enlace:</span>
-        <input type="text" value="https://defyx.com/desafio/1" readonly style="width:90%; margin-top:0.5rem; border-radius:1rem; border:none; padding:0.4rem;">
+        <input type="text" id="enlaceDesafio" value="https://defyx.com/desafio/1" readonly style="width:90%; margin-top:0.5rem; border-radius:1rem; border:none; padding:0.4rem;">
         <button class="btn-accion" onclick="alert('Enlace copiado!')">Copiar enlace</button>
       </div>
     </div>
@@ -206,68 +220,221 @@
   // Simulación de login (puedes reemplazar por tu lógica real)
   let isLogged = false;
 
-  // Manejo de clicks en cards
-  document.querySelectorAll('.card-desafio').forEach(card => {
-    // Botón Ver detalles
-    card.querySelector('.btn-ver').onclick = function(e) {
-      e.stopPropagation();
-      if (!isLogged) {
-        window.location.href = 'login.html';
-      } else {
-        const id = card.getAttribute('data-id');
-        window.location.href = `detalle.html?id=${id}`;
-      }
-    };
-    // Botón Aceptar
-    card.querySelector('.btn-aceptar').onclick = function(e) {
-      e.stopPropagation();
-      if (!isLogged) {
-        window.location.href = 'login.html';
-      } else {
-        const id = card.getAttribute('data-id');
-        window.location.href = `detalle.html?id=${id}&accion=aceptar`;
-      }
-    };
-    // Botón Invitar/Retar
-    card.querySelector('.btn-invitar').onclick = function(e) {
-      e.stopPropagation();
-      abrirModalInvitar(card.getAttribute('data-id'));
-    };
-    // Botón Compartir
-    card.querySelector('.btn-compartir').onclick = function(e) {
-      e.stopPropagation();
-      alert('Función de compartir próximamente');
-    };
-    // Click en la card completa (solo si no fue un botón)
-    card.onclick = function(e) {
-      // Si el click fue directamente en la card y no en un botón hijo
-      if (e.target === card) {
+  // Datos de desafíos (puedes reemplazar por fetch a tu backend)
+  const desafios = [
+    {
+      id: 1,
+      img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
+      titulo: "Camina 10km en la ciudad",
+      tipo: "gratis",
+      valor: 0,
+      tipoTexto: "🙌 Gratis",
+      desc: "Explora tu ciudad a pie y registra la experiencia.",
+      autor: "DefyX",
+      valorados: 12,
+      fecha: "2024-07-01"
+    },
+    {
+      id: 2,
+      img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+      titulo: "Comida sin manos",
+      tipo: "pago",
+      valor: 500,
+      tipoTexto: "💸 $500",
+      desc: "Come una hamburguesa sin usar las manos. ¡Graba el reto!",
+      autor: "Juanita",
+      valorados: 25,
+      fecha: "2024-07-03"
+    },
+    {
+      id: 3,
+      img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+      titulo: "Desafío TikTok",
+      tipo: "regalo",
+      valor: 0,
+      tipoTexto: "🎁 Regalo",
+      desc: "Haz la coreografía viral del mes y compártela.",
+      autor: "DefyX",
+      valorados: 30,
+      fecha: "2024-07-05"
+    }
+  ];
+
+  // Renderiza los desafíos según los filtros
+  function renderDesafios() {
+    const cat = document.getElementById('filtro-categoria').value;
+    const val = document.getElementById('filtro-valor').value;
+    const orden = document.getElementById('filtro-masvalorados').value;
+    let lista = desafios.slice();
+
+    // Filtrar por categoría
+    if (cat) lista = lista.filter(d => d.tipo === cat);
+
+    // Filtrar por valor
+    if (val === "menor") lista = lista.slice().sort((a, b) => a.valor - b.valor);
+    if (val === "mayor") lista = lista.slice().sort((a, b) => b.valor - a.valor);
+
+    // Ordenar por más valorados o recientes
+    if (orden === "masvalorados") lista = lista.slice().sort((a, b) => b.valorados - a.valorados);
+    if (orden === "recientes") lista = lista.slice().sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+    // Render
+    const cont = document.getElementById('explorar-lista');
+    cont.innerHTML = '';
+    if (lista.length === 0) {
+      cont.innerHTML = '<div style="padding:2rem;text-align:center;color:#b0b0b0;">No hay desafíos para estos filtros.</div>';
+      return;
+    }
+    lista.forEach(d => {
+      cont.innerHTML += `
+      <div class="card-desafio" data-id="${d.id}">
+        <img class="card-img" src="${d.img}" alt="Desafío ${d.id}">
+        <div class="card-info">
+          <div class="card-title">${d.titulo}</div>
+          <div class="card-tipo">${d.tipoTexto}</div>
+          <div class="card-desc">${d.desc}</div>
+          <div class="card-autor">Por <b>${d.autor}</b></div>
+          <div class="card-actions">
+            <button class="btn-accion btn-ver">Ver detalles</button>
+            <button class="btn-accion btn-aceptar">Aceptar</button>
+            <button class="btn-accion btn-invitar">Invitar/Retar</button>
+            <button class="btn-accion btn-compartir">Compartir</button>
+          </div>
+        </div>
+      </div>
+      `;
+    });
+
+    // Reasigna eventos a las nuevas cards
+    asignarEventosCards();
+  }
+
+  // Asigna eventos a las cards y botones
+  function asignarEventosCards() {
+    document.querySelectorAll('.card-desafio').forEach(card => {
+      // Botón Ver detalles
+      card.querySelector('.btn-ver').onclick = function(e) {
+        e.stopPropagation();
         if (!isLogged) {
           window.location.href = 'login.html';
         } else {
           const id = card.getAttribute('data-id');
           window.location.href = `detalle.html?id=${id}`;
         }
-      }
-    };
-  });
+      };
+      // Botón Aceptar
+      card.querySelector('.btn-aceptar').onclick = function(e) {
+        e.stopPropagation();
+        if (!isLogged) {
+          window.location.href = 'login.html';
+        } else {
+          const id = card.getAttribute('data-id');
+          window.location.href = `detalle.html?id=${id}&accion=aceptar`;
+        }
+      };
+      // Botón Invitar/Retar
+      card.querySelector('.btn-invitar').onclick = function(e) {
+        e.stopPropagation();
+        abrirModalInvitar(card.getAttribute('data-id'));
+      };
+      // Botón Compartir
+      card.querySelector('.btn-compartir').onclick = function(e) {
+        e.stopPropagation();
+        alert('Función de compartir próximamente');
+      };
+      // Click en la card completa (solo si no fue un botón)
+      card.onclick = function(e) {
+        if (e.target === card) {
+          if (!isLogged) {
+            window.location.href = 'login.html';
+          } else {
+            const id = card.getAttribute('data-id');
+            window.location.href = `detalle.html?id=${id}`;
+          }
+        }
+      };
+    });
+  }
 
-  // Modal Invitar/Retar
+  // Filtros funcionales
+  document.getElementById('filtro-categoria').onchange =
+  document.getElementById('filtro-valor').onchange =
+  document.getElementById('filtro-masvalorados').onchange = renderDesafios;
+
+  // Modal Invitar/Retar mejorado
   function abrirModalInvitar(id) {
     document.getElementById('modalInvitar').style.display = 'flex';
-    // Actualiza el enlace dinámicamente según el id
-    document.querySelector('#modalInvitar input[type="text"][readonly]').value = `https://defyx.com/desafio/${id}`;
+    document.getElementById('enlaceDesafio').value = `https://defyx.com/desafio/${id}`;
+    document.getElementById('inputUsuarioInvitar').value = "";
+    document.getElementById('selectVisibilidad').value = "privado";
+    document.getElementById('opcionesGrupo').style.display = "none";
+    document.getElementById('inputNombreGrupo').style.display = "none";
   }
+
   function cerrarModalInvitar() {
     document.getElementById('modalInvitar').style.display = 'none';
   }
-  // Cierra el modal si se hace click fuera del contenido
-  window.onclick = function(event) {
-    const modal = document.getElementById('modalInvitar');
-    if (event.target === modal) {
-      cerrarModalInvitar();
+
+  function mostrarOpcionesGrupo() {
+    const vis = document.getElementById('selectVisibilidad').value;
+    const opcionesGrupo = document.getElementById('opcionesGrupo');
+    if (vis === "publico") {
+      opcionesGrupo.style.display = "block";
+    } else {
+      opcionesGrupo.style.display = "none";
+      document.getElementById('inputNombreGrupo').style.display = "none";
+    }
+  }
+
+  document.getElementById('selectPublicoGrupo').onchange = function() {
+    if (this.value === "grupo") {
+      document.getElementById('inputNombreGrupo').style.display = "block";
+    } else {
+      document.getElementById('inputNombreGrupo').style.display = "none";
     }
   };
+
+  function enviarInvitacionDesafio() {
+  const usuario = document.getElementById('inputUsuarioInvitar').value.trim();
+  const visibilidad = document.getElementById('selectVisibilidad').value;
+  let publico = "";
+  let nombreGrupo = "";
+  if (visibilidad === "publico") {
+    publico = document.getElementById('selectPublicoGrupo').value;
+    if (publico === "grupo") {
+      nombreGrupo = document.getElementById('inputNombreGrupo').value.trim();
+      if (!nombreGrupo) {
+        alert("Debes ingresar el nombre del grupo.");
+        return;
+      }
+    }
+  }
+  if (!usuario && visibilidad === "privado") {
+    alert("Debes ingresar un usuario, grupo o email.");
+    return;
+  }
+
+  // --- GUARDAR EN LOCALSTORAGE ---
+  let pendientesAceptar = JSON.parse(localStorage.getItem('pendientesAceptar') || '[]');
+  pendientesAceptar.push({
+    id: Date.now(),
+    titulo: "Desafío invitado",
+    desc: "Te han invitado a un desafío.",
+    visibilidad: visibilidad,
+    destino: visibilidad === "publico" ? (publico === "grupo" ? "grupo" : "comunidad") : (nombreGrupo ? "grupo" : usuario),
+    grupo: nombreGrupo
+  });
+  localStorage.setItem('pendientesAceptar', JSON.stringify(pendientesAceptar));
+  // --- FIN GUARDADO ---
+
+  alert(
+    `Invitación enviada:\nA: ${usuario || (publico === "comunidad" ? "Toda la comunidad" : nombreGrupo)}\nVisibilidad: ${visibilidad}${visibilidad === "publico" ? " (" + (publico === "comunidad" ? "comunidad" : "grupo: " + nombreGrupo) + ")" : ""}`
+  );
+  cerrarModalInvitar();
+};
+
+  // Inicializa la lista al cargar
+  renderDesafios();
   </script>
 </body>
 </html>
