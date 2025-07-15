@@ -32,6 +32,13 @@
     .feed-comentarios { margin: 0.5rem 0 0.5rem 0; padding-left: 0.5rem; border-left: 2px solid #333; }
     .comentario { font-size: 0.97rem; color: #b0eaff; margin-bottom: 0.2rem; }
     .comentario strong { color: #4fc3f7; }
+    /* Conexiones importantes */
+    .perfil-section { background:#23272a; border-radius:1.2rem; padding:1.5rem; margin:2rem 0; }
+    .conexiones-card { background:#18191a; border-radius:1rem; padding:1rem; margin-bottom:1rem; display:flex; align-items:center; justify-content:space-between; }
+    .conexiones-btns { display:flex; flex-direction:column; gap:0.5rem; }
+    .conexiones-btns button { border:none; border-radius:1rem; padding:0.4rem 1rem; font-weight:bold; cursor:pointer; }
+    .conexiones-btns .btn-emocional { background:#1da1f2; color:#fff; }
+    .conexiones-btns .btn-historial { background:#444; color:#fff; }
   </style>
 </head>
 <body>
@@ -40,7 +47,20 @@
     <div class="perfil-nombre">Tú</div>
     <div class="perfil-user">@tu_usuario</div>
     <div class="perfil-desc">¡Bienvenido a tu muro! Aquí puedes ver tu actividad y tus desafíos.</div>
+    <div style="margin-top:1rem;">
+      <span style="background:#ffd700;color:#23272a;padding:0.5rem 1.2rem;border-radius:1.2rem;font-weight:bold;">
+        Créditos: <span id="saldo-creditos">0</span>
+      </span>
+      <button onclick="comprarCreditos()" style="margin-left:1rem;background:#1da1f2;color:#fff;border:none;border-radius:1rem;padding:0.5rem 1.2rem;font-weight:bold;cursor:pointer;">Comprar créditos</button>
+    </div>
   </div>
+
+  <!-- Sección conexiones importantes -->
+  <div class="perfil-section">
+    <h3 style="color:#ffd700; margin-top:0;">Conexiones importantes</h3>
+    <div id="conexiones-list"></div>
+  </div>
+
   <div class="perfil-muro">
     <h2>Mi actividad</h2>
     <div class="actividad-feed" id="actividad-feed">
@@ -48,6 +68,92 @@
     </div>
   </div>
   <script>
+    // --- SISTEMA DE CRÉDITOS ---
+    function getCreditos() {
+      return parseInt(localStorage.getItem('defyx_creditos') || '20');
+    }
+    function setCreditos(n) {
+      localStorage.setItem('defyx_creditos', n);
+      document.getElementById('saldo-creditos').textContent = n;
+    }
+    function comprarCreditos() {
+      if (confirm("¿Comprar 10 créditos por $0? (Simulación)")) {
+        setCreditos(getCreditos() + 10);
+        alert("¡Créditos agregados!");
+      }
+    }
+    // Inicializa saldo al cargar
+    if (localStorage.getItem('defyx_creditos') === null) setCreditos(20);
+    else setCreditos(getCreditos());
+
+    // Ejemplo: consumir créditos por acción
+    function consumirCredito(accion) {
+      let costo = 0;
+      if (accion === "desbloqueo") costo = 2;
+      if (accion === "regalo") costo = 3;
+      if (accion === "creacion") costo = 1;
+      let saldo = getCreditos();
+      if (saldo < costo) {
+        alert("No tienes suficientes créditos.");
+        return false;
+      }
+      setCreditos(saldo - costo);
+      return true;
+    }
+
+    // Mock de contactos frecuentes
+    const conexiones = [
+      { nombre: "Juanita", usuario: "@juanita", ultimaInteraccion: "2025-07-06" },
+      { nombre: "Marcos", usuario: "@marcos", ultimaInteraccion: "2025-07-10" },
+      { nombre: "Sofía", usuario: "@sofia", ultimaInteraccion: "2025-07-01" }
+    ];
+
+    function diasDesde(fecha) {
+      const hoy = new Date();
+      const f = new Date(fecha);
+      return Math.floor((hoy - f) / (1000 * 60 * 60 * 24));
+    }
+
+    function sugerirDesafio(nombre) {
+      alert(`¡Hace tiempo que no interactúas con ${nombre}! ¿Qué tal si le regalas un desafío emocional?`);
+    }
+
+    function verHistorial(nombre) {
+      alert(`(Mock) Mostrando historial de interacción con ${nombre}.`);
+    }
+
+    function regalarDesafioEmocional(nombre) {
+      if (consumirCredito("regalo")) {
+        alert('¡Desafío emocional enviado a ' + nombre + '!');
+      }
+    }
+
+    function renderConexiones() {
+      const cont = document.getElementById('conexiones-list');
+      cont.innerHTML = "";
+      conexiones.forEach(c => {
+        const dias = diasDesde(c.ultimaInteraccion);
+        cont.innerHTML += `
+          <div class="conexiones-card">
+            <div>
+              <b>${c.nombre}</b> <span style="color:#4fc3f7;">${c.usuario}</span><br>
+              <span style="color:#b0b0b0; font-size:0.95rem;">Última interacción: ${c.ultimaInteraccion} (${dias} días)</span>
+            </div>
+            <div class="conexiones-btns">
+              <button class="btn-emocional" onclick="regalarDesafioEmocional('${c.nombre}')">Regalar desafío emocional</button>
+              <button class="btn-historial" onclick="verHistorial('${c.nombre}')">Ver historial</button>
+            </div>
+          </div>
+        `;
+        // Sugerencia si no han interactuado en más de 7 días
+        if (dias > 7) {
+          setTimeout(() => sugerirDesafio(c.nombre), 500);
+        }
+      });
+    }
+
+    renderConexiones();
+
     // Ejemplo de desafíos del usuario con comentarios
     const desafios = [
       {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Notificaciones - DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #18191a; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+    .notif-container { max-width: 500px; margin: 2rem auto; background: #23272a; border-radius: 1.2rem; padding: 2rem 1.5rem; }
+    .notif-title { color: #1da1f2; font-size: 1.4rem; margin-bottom: 1.2rem; }
+    .notif-card { background: #18191a; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; }
+    .notif-fecha { color: #b0b0b0; font-size: 0.93rem; margin-top: 0.3rem; }
+  </style>
+</head>
+<body>
+  <div class="notif-container">
+    <div class="notif-title">Tus notificaciones</div>
+    <div id="notif-list"></div>
+  </div>
+  <script>
+    const usuario = localStorage.getItem('defyx_usuario') || "Anónimo";
+    const notificaciones = JSON.parse(localStorage.getItem('defyx_notificaciones') || '[]')
+      .filter(n => n.usuario === usuario)
+      .sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    const notifList = document.getElementById('notif-list');
+    if (notificaciones.length === 0) {
+      notifList.innerHTML = '<div style="color:#b0b0b0;text-align:center;">No tienes notificaciones nuevas.</div>';
+    } else {
+      notificaciones.forEach(n => {
+        notifList.innerHTML += `
+          <div class="notif-card">
+            ${n.mensaje}
+            <div class="notif-fecha">${new Date(n.fecha).toLocaleString()}</div>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

@@ -83,10 +83,21 @@
       });
     }
 
+    function agregarNotificacion(usuario, mensaje) {
+      let notificaciones = JSON.parse(localStorage.getItem('defyx_notificaciones') || '[]');
+      notificaciones.push({
+        usuario,
+        mensaje,
+        fecha: new Date().toISOString()
+      });
+      localStorage.setItem('defyx_notificaciones', JSON.stringify(notificaciones));
+    }
+
     function aprobar(idx) {
       evidencias[idx].estado = "aprobada";
       evidencias[idx].comentario = document.getElementById('comentario'+idx).value;
       guardarEstadoEvidencia(evidencias[idx]);
+      agregarNotificacion(evidencias[idx].usuario, `Tu evidencia para el desafío "${evidencias[idx].tituloReto}" fue APROBADA.`);
       renderPanelRevision();
       alert("Evidencia aprobada. El usuario será notificado.");
     }
@@ -94,6 +105,7 @@
       evidencias[idx].estado = "rechazada";
       evidencias[idx].comentario = document.getElementById('comentario'+idx).value;
       guardarEstadoEvidencia(evidencias[idx]);
+      agregarNotificacion(evidencias[idx].usuario, `Tu evidencia para el desafío "${evidencias[idx].tituloReto}" fue RECHAZADA. Motivo: ${evidencias[idx].comentario}`);
       renderPanelRevision();
       alert("Evidencia rechazada. El usuario será notificado con el motivo.");
     }
@@ -114,4 +126,3 @@
     renderPanelRevision();
   </script>
 </body>
-</html>
