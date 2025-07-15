@@ -1,38 +1,440 @@
-<!-- explorar.html - Vista de desafíos públicos -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorar Desafíos | DefyX</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorar Desafíos - DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #18191a;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .explorar-header {
+      padding: 1.5rem 1.2rem 0.5rem 1.2rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1da1f2;
+      letter-spacing: 1px;
+    }
+    .filtros-explorar {
+      display: flex;
+      gap: 0.7rem;
+      margin: 0 1.2rem 1.2rem 1.2rem;
+      background: #23272a;
+      border-radius: 1rem;
+      padding: 0.7rem 1rem;
+      box-shadow: 0 2px 8px #0002;
+      flex-wrap: wrap;
+    }
+    .filtros-explorar select {
+      background: #18191a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 1rem;
+      padding: 0.4rem 1rem;
+      font-size: 1rem;
+      outline: none;
+    }
+    .filtros-explorar select:focus {
+      border-color: #1da1f2;
+    }
+    .explorar-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1rem 0.5rem 5rem 0.5rem;
+    }
+    .card-desafio {
+      background: #23272a;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 8px #0002;
+      overflow: hidden;
+      transition: transform 0.12s;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-desafio:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 16px #1da1f233;
+    }
+    .card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: #111;
+    }
+    .card-info {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #4fc3f7;
+      margin: 0;
+    }
+    .card-tipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .card-desc {
+      color: #e0e0e0;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .card-autor {
+      color: #b0b0b0;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .btn-accion {
+      background: #1da1f2;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-accion:hover {
+      background: #2196f3;
+    }
+    .main-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #23272a;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 10;
+    }
+    .main-nav a {
+      color: #b0b0b0;
+      font-size: 1.7rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.2rem 0;
+      flex: 1;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+    .main-nav a.active,
+    .main-nav a:hover {
+      color: #1da1f2;
+    }
+    .main-nav a span:last-child {
+      font-size: 0.85rem;
+      margin-top: 0.1rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Explorar Desafíos</h1>
-    <p>Inspírate con retos creados por otros</p>
-  </header>
+  <div class="explorar-header">Explorar desafíos</div>
 
-  <main class="desafios-grid">
-    <article class="desafio-card">
-      <img src="https://via.placeholder.com/300x150" alt="Desafío 1" />
-      <h2>Camina 10km en la ciudad</h2>
-      <p>Explora tu ciudad a pie y registra la experiencia.</p>
-      <button>Ver más</button>
-    </article>
+  <!-- Filtros -->
+  <div class="filtros-explorar">
+    <select id="filtro-categoria">
+      <option value="">Todas las categorías</option>
+      <option value="gratis">Gratis</option>
+      <option value="pago">Pago</option>
+      <option value="regalo">Regalo</option>
+    </select>
+    <select id="filtro-valor">
+      <option value="">Todos los valores</option>
+      <option value="menor">Menor valor</option>
+      <option value="mayor">Mayor valor</option>
+    </select>
+    <select id="filtro-masvalorados">
+      <option value="">Ordenar por</option>
+      <option value="masvalorados">Más valorados</option>
+      <option value="recientes">Más recientes</option>
+    </select>
+  </div>
 
-    <article class="desafio-card">
-      <img src="https://via.placeholder.com/300x150" alt="Desafío 2" />
-      <h2>Comida sin manos</h2>
-      <p>Come una hamburguesa sin usar las manos. ¡Graba el reto!</p>
-      <button>Ver más</button>
-    </article>
+  <div class="explorar-lista" id="explorar-lista">
+    <!-- Las cards se generan dinámicamente -->
+  </div>
+  <nav class="main-nav">
+    <a href="index.html" title="Inicio"><span>🏠</span><span>Inicio</span></a>
+    <a href="explorar.html" class="active" title="Explorar"><span>🔥</span><span>Explorar</span></a>
+    <a href="mis-desafios.html" title="Mis desafíos"><span>🎯</span><span>Mis desafíos</span></a>
+    <a href="notificaciones.html" title="Notificaciones"><span>🔔</span><span>Notificaciones</span></a>
+    <a href="perfil.html" title="Perfil"><span>👤</span><span>Perfil</span></a>
+  </nav>
 
-    <!-- Agrega más desafíos aquí -->
-  </main>
+  <!-- Modal Invitar/Retar mejorado -->
+  <div id="modalInvitar" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:2000;">
+    <div style="background:#23272a; padding:2rem 1.5rem; border-radius:1rem; text-align:center; color:#fff; min-width:260px; max-width:90vw;">
+      <h3>Invitar / Retar a un desafío</h3>
+      <input type="text" id="inputUsuarioInvitar" placeholder="Usuario, grupo o email" style="padding:0.5rem 1rem; border-radius:1rem; border:none; margin-bottom:1rem; width:90%;">
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;margin-bottom:0.5rem;">Visibilidad:</label>
+        <select id="selectVisibilidad" style="padding:0.4rem 1rem; border-radius:1rem; border:none; width:90%;" onchange="mostrarOpcionesGrupo()">
+          <option value="privado">Privado (solo la persona/grupo invitado)</option>
+          <option value="publico">Público</option>
+        </select>
+      </div>
+      <div id="opcionesGrupo" style="display:none; margin-bottom:1rem;">
+        <label style="display:block;margin-bottom:0.5rem;">¿A quién será público?</label>
+        <select id="selectPublicoGrupo" style="padding:0.4rem 1rem; border-radius:1rem; border:none; width:90%;">
+          <option value="comunidad">Toda la comunidad</option>
+          <option value="grupo">Solo un grupo específico</option>
+        </select>
+        <input type="text" id="inputNombreGrupo" placeholder="Nombre del grupo (si aplica)" style="margin-top:0.5rem; width:90%; display:none;">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <button class="btn-accion" onclick="enviarInvitacionDesafio();">Enviar invitación</button>
+        <button class="btn-accion" onclick="cerrarModalInvitar();" style="background:#444;">Cancelar</button>
+      </div>
+      <div>
+        <span style="font-size:0.95rem; color:#b0b0b0;">O comparte el enlace:</span>
+        <input type="text" id="enlaceDesafio" value="https://defyx.com/desafio/1" readonly style="width:90%; margin-top:0.5rem; border-radius:1rem; border:none; padding:0.4rem;">
+        <button class="btn-accion" onclick="alert('Enlace copiado!')">Copiar enlace</button>
+      </div>
+    </div>
+  </div>
 
-  <footer>
-    <p><a href="index.html">⬅ Volver al inicio</a></p>
-  </footer>
+  <script>
+  // Simulación de login (puedes reemplazar por tu lógica real)
+  let isLogged = false;
+
+  // Datos de desafíos (puedes reemplazar por fetch a tu backend)
+  const desafios = [
+    {
+      id: 1,
+      img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
+      titulo: "Camina 10km en la ciudad",
+      tipo: "gratis",
+      valor: 0,
+      tipoTexto: "🙌 Gratis",
+      desc: "Explora tu ciudad a pie y registra la experiencia.",
+      autor: "DefyX",
+      valorados: 12,
+      fecha: "2024-07-01"
+    },
+    {
+      id: 2,
+      img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+      titulo: "Comida sin manos",
+      tipo: "pago",
+      valor: 500,
+      tipoTexto: "💸 $500",
+      desc: "Come una hamburguesa sin usar las manos. ¡Graba el reto!",
+      autor: "Juanita",
+      valorados: 25,
+      fecha: "2024-07-03"
+    },
+    {
+      id: 3,
+      img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+      titulo: "Desafío TikTok",
+      tipo: "regalo",
+      valor: 0,
+      tipoTexto: "🎁 Regalo",
+      desc: "Haz la coreografía viral del mes y compártela.",
+      autor: "DefyX",
+      valorados: 30,
+      fecha: "2024-07-05"
+    }
+  ];
+
+  // Renderiza los desafíos según los filtros
+  function renderDesafios() {
+    const cat = document.getElementById('filtro-categoria').value;
+    const val = document.getElementById('filtro-valor').value;
+    const orden = document.getElementById('filtro-masvalorados').value;
+    let lista = desafios.slice();
+
+    // Filtrar por categoría
+    if (cat) lista = lista.filter(d => d.tipo === cat);
+
+    // Filtrar por valor
+    if (val === "menor") lista = lista.slice().sort((a, b) => a.valor - b.valor);
+    if (val === "mayor") lista = lista.slice().sort((a, b) => b.valor - a.valor);
+
+    // Ordenar por más valorados o recientes
+    if (orden === "masvalorados") lista = lista.slice().sort((a, b) => b.valorados - a.valorados);
+    if (orden === "recientes") lista = lista.slice().sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+    // Render
+    const cont = document.getElementById('explorar-lista');
+    cont.innerHTML = '';
+    if (lista.length === 0) {
+      cont.innerHTML = '<div style="padding:2rem;text-align:center;color:#b0b0b0;">No hay desafíos para estos filtros.</div>';
+      return;
+    }
+    lista.forEach(d => {
+      cont.innerHTML += `
+      <div class="card-desafio" data-id="${d.id}">
+        <img class="card-img" src="${d.img}" alt="Desafío ${d.id}">
+        <div class="card-info">
+          <div class="card-title">${d.titulo}</div>
+          <div class="card-tipo">${d.tipoTexto}</div>
+          <div class="card-desc">${d.desc}</div>
+          <div class="card-autor">Por <b>${d.autor}</b></div>
+          <div class="card-actions">
+            <button class="btn-accion btn-ver">Ver detalles</button>
+            <button class="btn-accion btn-aceptar">Aceptar</button>
+            <button class="btn-accion btn-invitar">Invitar/Retar</button>
+            <button class="btn-accion btn-compartir">Compartir</button>
+          </div>
+        </div>
+      </div>
+      `;
+    });
+
+    // Reasigna eventos a las nuevas cards
+    asignarEventosCards();
+  }
+
+  // Asigna eventos a las cards y botones
+  function asignarEventosCards() {
+    document.querySelectorAll('.card-desafio').forEach(card => {
+      // Botón Ver detalles
+      card.querySelector('.btn-ver').onclick = function(e) {
+        e.stopPropagation();
+        if (!isLogged) {
+          window.location.href = 'login.html';
+        } else {
+          const id = card.getAttribute('data-id');
+          window.location.href = `detalle.html?id=${id}`;
+        }
+      };
+      // Botón Aceptar
+      card.querySelector('.btn-aceptar').onclick = function(e) {
+        e.stopPropagation();
+        if (!isLogged) {
+          window.location.href = 'login.html';
+        } else {
+          const id = card.getAttribute('data-id');
+          window.location.href = `detalle.html?id=${id}&accion=aceptar`;
+        }
+      };
+      // Botón Invitar/Retar
+      card.querySelector('.btn-invitar').onclick = function(e) {
+        e.stopPropagation();
+        abrirModalInvitar(card.getAttribute('data-id'));
+      };
+      // Botón Compartir
+      card.querySelector('.btn-compartir').onclick = function(e) {
+        e.stopPropagation();
+        alert('Función de compartir próximamente');
+      };
+      // Click en la card completa (solo si no fue un botón)
+      card.onclick = function(e) {
+        if (e.target === card) {
+          if (!isLogged) {
+            window.location.href = 'login.html';
+          } else {
+            const id = card.getAttribute('data-id');
+            window.location.href = `detalle.html?id=${id}`;
+          }
+        }
+      };
+    });
+  }
+
+  // Filtros funcionales
+  document.getElementById('filtro-categoria').onchange =
+  document.getElementById('filtro-valor').onchange =
+  document.getElementById('filtro-masvalorados').onchange = renderDesafios;
+
+  // Modal Invitar/Retar mejorado
+  function abrirModalInvitar(id) {
+    document.getElementById('modalInvitar').style.display = 'flex';
+    document.getElementById('enlaceDesafio').value = `https://defyx.com/desafio/${id}`;
+    document.getElementById('inputUsuarioInvitar').value = "";
+    document.getElementById('selectVisibilidad').value = "privado";
+    document.getElementById('opcionesGrupo').style.display = "none";
+    document.getElementById('inputNombreGrupo').style.display = "none";
+  }
+
+  function cerrarModalInvitar() {
+    document.getElementById('modalInvitar').style.display = 'none';
+  }
+
+  function mostrarOpcionesGrupo() {
+    const vis = document.getElementById('selectVisibilidad').value;
+    const opcionesGrupo = document.getElementById('opcionesGrupo');
+    if (vis === "publico") {
+      opcionesGrupo.style.display = "block";
+    } else {
+      opcionesGrupo.style.display = "none";
+      document.getElementById('inputNombreGrupo').style.display = "none";
+    }
+  }
+
+  document.getElementById('selectPublicoGrupo').onchange = function() {
+    if (this.value === "grupo") {
+      document.getElementById('inputNombreGrupo').style.display = "block";
+    } else {
+      document.getElementById('inputNombreGrupo').style.display = "none";
+    }
+  };
+
+  function enviarInvitacionDesafio() {
+  const usuario = document.getElementById('inputUsuarioInvitar').value.trim();
+  const visibilidad = document.getElementById('selectVisibilidad').value;
+  let publico = "";
+  let nombreGrupo = "";
+  if (visibilidad === "publico") {
+    publico = document.getElementById('selectPublicoGrupo').value;
+    if (publico === "grupo") {
+      nombreGrupo = document.getElementById('inputNombreGrupo').value.trim();
+      if (!nombreGrupo) {
+        alert("Debes ingresar el nombre del grupo.");
+        return;
+      }
+    }
+  }
+  if (!usuario && visibilidad === "privado") {
+    alert("Debes ingresar un usuario, grupo o email.");
+    return;
+  }
+
+  // --- GUARDAR EN LOCALSTORAGE ---
+  let pendientesAceptar = JSON.parse(localStorage.getItem('pendientesAceptar') || '[]');
+  pendientesAceptar.push({
+    id: Date.now(),
+    titulo: "Desafío invitado",
+    desc: "Te han invitado a un desafío.",
+    visibilidad: visibilidad,
+    destino: visibilidad === "publico" ? (publico === "grupo" ? "grupo" : "comunidad") : (nombreGrupo ? "grupo" : usuario),
+    grupo: nombreGrupo
+  });
+  localStorage.setItem('pendientesAceptar', JSON.stringify(pendientesAceptar));
+  // --- FIN GUARDADO ---
+
+  alert(
+    `Invitación enviada:\nA: ${usuario || (publico === "comunidad" ? "Toda la comunidad" : nombreGrupo)}\nVisibilidad: ${visibilidad}${visibilidad === "publico" ? " (" + (publico === "comunidad" ? "comunidad" : "grupo: " + nombreGrupo) + ")" : ""}`
+  );
+  cerrarModalInvitar();
+};
+
+  // Inicializa la lista al cargar
+  renderDesafios();
+  </script>
 </body>
 </html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Perfil - DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #18191a; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+    .perfil-header { background: #23272a; padding: 2rem 1rem 1rem 1rem; text-align: center; }
+    .perfil-avatar { width: 90px; height: 90px; border-radius: 50%; background: #1da1f2; display: inline-flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; font-weight: bold; margin-bottom: 0.5rem; }
+    .perfil-nombre { font-size: 1.5rem; font-weight: bold; margin-bottom: 0.2rem; }
+    .perfil-user { color: #b0b0b0; margin-bottom: 0.5rem; }
+    .perfil-desc { color: #e0e0e0; margin-bottom: 1rem; }
+    .perfil-muro { max-width: 500px; margin: 2rem auto; }
+    .actividad-feed { }
+    .feed-card { background: #23272a; border-radius: 1.1rem; margin-bottom: 1.2rem; padding: 1rem 1rem 0.7rem 1rem; box-shadow: 0 2px 8px #0002; }
+    .feed-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+    .feed-avatar { width: 40px; height: 40px; border-radius: 50%; background: #1da1f2; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; font-weight: bold; }
+    .feed-user { font-weight: bold; font-size: 1rem; color: #fff; }
+    .feed-time { color: #b0b0b0; font-size: 0.92rem; margin-left: auto; }
+    .feed-title { font-size: 1.08rem; font-weight: 600; margin-bottom: 0.2rem; color: #4fc3f7; }
+    .feed-desc { color: #e0e0e0; font-size: 0.97rem; margin-bottom: 0.7rem; }
+    .feed-actions { display: flex; gap: 1.2rem; color: #b0b0b0; font-size: 1.1rem; margin-bottom: 0.2rem; }
+    .feed-actions span { display: flex; align-items: center; gap: 0.3rem; }
+    .tag-publico { color: #1da1f2; font-weight: bold; }
+    .tag-grupo { color: #ffd700; font-weight: bold; }
+    .tag-privado { color: #b0b0b0; font-weight: bold; }
+    .estado-aceptado { color: #4caf50; }
+    .estado-rechazado { color: #f44336; }
+    .estado-pendiente { color: #ff9800; }
+    .feed-visibilidad { font-size: 0.95rem; color: #b0b0b0; margin-bottom: 0.5rem; }
+    .feed-comentarios { margin: 0.5rem 0 0.5rem 0; padding-left: 0.5rem; border-left: 2px solid #333; }
+    .comentario { font-size: 0.97rem; color: #b0eaff; margin-bottom: 0.2rem; }
+    .comentario strong { color: #4fc3f7; }
+    /* Conexiones importantes */
+    .perfil-section { background:#23272a; border-radius:1.2rem; padding:1.5rem; margin:2rem 0; }
+    .conexiones-card { background:#18191a; border-radius:1rem; padding:1rem; margin-bottom:1rem; display:flex; align-items:center; justify-content:space-between; }
+    .conexiones-btns { display:flex; flex-direction:column; gap:0.5rem; }
+    .conexiones-btns button { border:none; border-radius:1rem; padding:0.4rem 1rem; font-weight:bold; cursor:pointer; }
+    .conexiones-btns .btn-emocional { background:#1da1f2; color:#fff; }
+    .conexiones-btns .btn-historial { background:#444; color:#fff; }
+  </style>
+</head>
+<body>
+  <div class="perfil-header">
+    <div class="perfil-avatar">T</div>
+    <div class="perfil-nombre">Tú</div>
+    <div class="perfil-user">@tu_usuario</div>
+    <div class="perfil-desc">¡Bienvenido a tu muro! Aquí puedes ver tu actividad y tus desafíos.</div>
+    <div style="margin-top:1rem;">
+      <span style="background:#ffd700;color:#23272a;padding:0.5rem 1.2rem;border-radius:1.2rem;font-weight:bold;">
+        Créditos: <span id="saldo-creditos">0</span>
+      </span>
+      <button onclick="comprarCreditos()" style="margin-left:1rem;background:#1da1f2;color:#fff;border:none;border-radius:1rem;padding:0.5rem 1.2rem;font-weight:bold;cursor:pointer;">Comprar créditos</button>
+    </div>
+  </div>
+
+  <!-- Sección conexiones importantes -->
+  <div class="perfil-section">
+    <h3 style="color:#ffd700; margin-top:0;">Conexiones importantes</h3>
+    <div id="conexiones-list"></div>
+  </div>
+
+  <div class="perfil-muro">
+    <h2>Mi actividad</h2>
+    <div class="actividad-feed" id="actividad-feed">
+      <!-- Las tarjetas de actividad se insertan aquí por JS -->
+    </div>
+  </div>
+  <script>
+    // --- SISTEMA DE CRÉDITOS ---
+    function getCreditos() {
+      return parseInt(localStorage.getItem('defyx_creditos') || '20');
+    }
+    function setCreditos(n) {
+      localStorage.setItem('defyx_creditos', n);
+      document.getElementById('saldo-creditos').textContent = n;
+    }
+    function comprarCreditos() {
+      if (confirm("¿Comprar 10 créditos por $0? (Simulación)")) {
+        setCreditos(getCreditos() + 10);
+        alert("¡Créditos agregados!");
+      }
+    }
+    // Inicializa saldo al cargar
+    if (localStorage.getItem('defyx_creditos') === null) setCreditos(20);
+    else setCreditos(getCreditos());
+
+    // Ejemplo: consumir créditos por acción
+    function consumirCredito(accion) {
+      let costo = 0;
+      if (accion === "desbloqueo") costo = 2;
+      if (accion === "regalo") costo = 3;
+      if (accion === "creacion") costo = 1;
+      let saldo = getCreditos();
+      if (saldo < costo) {
+        alert("No tienes suficientes créditos.");
+        return false;
+      }
+      setCreditos(saldo - costo);
+      return true;
+    }
+
+    // Mock de contactos frecuentes
+    const conexiones = [
+      { nombre: "Juanita", usuario: "@juanita", ultimaInteraccion: "2025-07-06" },
+      { nombre: "Marcos", usuario: "@marcos", ultimaInteraccion: "2025-07-10" },
+      { nombre: "Sofía", usuario: "@sofia", ultimaInteraccion: "2025-07-01" }
+    ];
+
+    function diasDesde(fecha) {
+      const hoy = new Date();
+      const f = new Date(fecha);
+      return Math.floor((hoy - f) / (1000 * 60 * 60 * 24));
+    }
+
+    function sugerirDesafio(nombre) {
+      alert(`¡Hace tiempo que no interactúas con ${nombre}! ¿Qué tal si le regalas un desafío emocional?`);
+    }
+
+    function verHistorial(nombre) {
+      alert(`(Mock) Mostrando historial de interacción con ${nombre}.`);
+    }
+
+    function regalarDesafioEmocional(nombre) {
+      if (consumirCredito("regalo")) {
+        alert('¡Desafío emocional enviado a ' + nombre + '!');
+      }
+    }
+
+    function renderConexiones() {
+      const cont = document.getElementById('conexiones-list');
+      cont.innerHTML = "";
+      conexiones.forEach(c => {
+        const dias = diasDesde(c.ultimaInteraccion);
+        cont.innerHTML += `
+          <div class="conexiones-card">
+            <div>
+              <b>${c.nombre}</b> <span style="color:#4fc3f7;">${c.usuario}</span><br>
+              <span style="color:#b0b0b0; font-size:0.95rem;">Última interacción: ${c.ultimaInteraccion} (${dias} días)</span>
+            </div>
+            <div class="conexiones-btns">
+              <button class="btn-emocional" onclick="regalarDesafioEmocional('${c.nombre}')">Regalar desafío emocional</button>
+              <button class="btn-historial" onclick="verHistorial('${c.nombre}')">Ver historial</button>
+            </div>
+          </div>
+        `;
+        // Sugerencia si no han interactuado en más de 7 días
+        if (dias > 7) {
+          setTimeout(() => sugerirDesafio(c.nombre), 500);
+        }
+      });
+    }
+
+    renderConexiones();
+
+    // Ejemplo de desafíos del usuario con comentarios
+    const desafios = [
+      {
+        titulo: "Desafío: Saltar la cuerda",
+        descripcion: "Tú desafías públicamente a @amigo",
+        visibilidad: "publico",
+        estado: "aceptado",
+        fecha: "hace 2h",
+        quienesVen: "Todos los usuarios pueden ver este desafío y sus comentarios.",
+        comentarios: [
+          { usuario: "@amigo", texto: "¡Acepto el reto!" },
+          { usuario: "@sofia", texto: "¡Qué divertido!" }
+        ]
+      },
+      {
+        titulo: "Desafío: Leer un libro",
+        descripcion: "Tú desafías de forma privada a @amigo2",
+        visibilidad: "privado",
+        estado: "rechazado",
+        fecha: "hace 1d",
+        quienesVen: "Solo tú y @amigo2 pueden ver este desafío y sus comentarios.",
+        comentarios: [
+          { usuario: "@amigo2", texto: "No tengo tiempo esta semana 😅" }
+        ]
+      },
+      {
+        titulo: "Desafío: Foto divertida",
+        descripcion: "Tú desafías a @familia en grupo",
+        visibilidad: "grupo",
+        estado: "pendiente",
+        fecha: "hace 3d",
+        quienesVen: "Solo los miembros del grupo @familia pueden ver este desafío y sus comentarios.",
+        comentarios: [
+          { usuario: "@mama", texto: "¡Vamos a hacerlo juntos!" },
+          { usuario: "@papa", texto: "¿Dónde subo la foto?" }
+        ]
+      }
+    ];
+
+    function visTag(vis) {
+      if (vis === "publico") return '<span class="tag-publico">🔓 Público</span>';
+      if (vis === "grupo") return '<span class="tag-grupo">👥 Grupo</span>';
+      return '<span class="tag-privado">🔒 Privado</span>';
+    }
+    function estadoTag(estado) {
+      if (estado === "aceptado") return '<span class="estado-aceptado">✅ Aceptado</span>';
+      if (estado === "rechazado") return '<span class="estado-rechazado">❌ Rechazado</span>';
+      return '<span class="estado-pendiente">⏳ Pendiente</span>';
+    }
+
+    const feed = document.getElementById('actividad-feed');
+    desafios.forEach(d => {
+      const card = document.createElement('div');
+      card.className = "feed-card";
+      let comentariosHtml = "";
+      if (d.comentarios && d.comentarios.length > 0) {
+        comentariosHtml = `<div class="feed-comentarios"><b>Comentarios:</b><br>` +
+          d.comentarios.map(c => `<div class="comentario"><strong>${c.usuario}:</strong> ${c.texto}</div>`).join("") +
+          `</div>`;
+      }
+      card.innerHTML = `
+        <div class="feed-header">
+          <div class="feed-avatar">T</div>
+          <div class="feed-user">Tú</div>
+          <div class="feed-time">${d.fecha}</div>
+        </div>
+        <div class="feed-title">${d.titulo}</div>
+        <div class="feed-desc"><b>${d.descripcion}</b></div>
+        <div class="feed-visibilidad">${d.quienesVen}</div>
+        ${comentariosHtml}
+        <div class="feed-actions">
+          ${visTag(d.visibilidad)}
+          ${estadoTag(d.estado)}
+        </div>
+      `;
+      feed.appendChild(card);
+    });
+  </script>
+</body>
+</html>

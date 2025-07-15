@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Desafío - DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #18191a; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+    .crear-container { max-width: 480px; margin: 2rem auto; background: #23272a; border-radius: 1.2rem; padding: 2rem 1.5rem; box-shadow: 0 2px 12px #0005; }
+    h2 { margin-top: 0; color: #1da1f2; }
+    label { display: block; margin-top: 1rem; margin-bottom: 0.3rem; }
+    input, select, textarea { width: 100%; padding: 0.7rem; border-radius: 0.7rem; border: none; font-size: 1rem; margin-bottom: 0.5rem; }
+    textarea { min-height: 70px; }
+    button { width: 100%; padding: 0.9rem; border-radius: 0.7rem; border: none; background: #1da1f2; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 1rem; }
+    .grupo-select, .usuario-select { display: none; }
+  </style>
+</head>
+<body>
+  <div class="crear-container">
+    <h2>Crear nuevo desafío</h2>
+    <form id="form-crear-desafio" autocomplete="off">
+      <label for="categoria">Categoría</label>
+      <select id="categoria" required>
+        <option value="">Selecciona una categoría</option>
+        <option value="diversion">Diversión</option>
+        <option value="deporte">Deporte</option>
+        <option value="familia">Familia</option>
+        <option value="otros">Otros</option>
+      </select>
+
+      <label for="valor">Recompensa</label>
+      <input type="text" id="valor" placeholder="Ej: Gratis, 500 US, Gift Card...">
+
+      <label for="titulo">Título del desafío</label>
+      <input type="text" id="titulo" required placeholder="Ej: Carrera de sacos">
+
+      <label for="descripcion">Descripción y condiciones</label>
+      <textarea id="descripcion" required placeholder="Describe el reto y sus condiciones..."></textarea>
+
+      <label for="img">URL de imagen (opcional)</label>
+      <input type="text" id="img" placeholder="https://...">
+
+      <label for="visibilidad">Visibilidad</label>
+      <select id="visibilidad" required onchange="mostrarOpcionesVisibilidad()">
+        <option value="publico">Público (toda la comunidad)</option>
+        <option value="grupo">Grupo específico</option>
+        <option value="privado">Privado (solo un usuario)</option>
+      </select>
+
+      <div id="grupo-select" class="grupo-select">
+        <label for="grupo">Nombre del grupo</label>
+        <input type="text" id="grupo" placeholder="Ej: Amigos del fútbol">
+      </div>
+      <div id="usuario-select" class="usuario-select">
+        <label for="usuario">Usuario o email</label>
+        <input type="text" id="usuario" placeholder="Ej: usuario@email.com">
+      </div>
+
+      <button type="submit">Crear desafío</button>
+    </form>
+  </div>
+  <script>
+    function mostrarOpcionesVisibilidad() {
+      const vis = document.getElementById('visibilidad').value;
+      document.getElementById('grupo-select').style.display = vis === "grupo" ? "block" : "none";
+      document.getElementById('usuario-select').style.display = vis === "privado" ? "block" : "none";
+    }
+
+    function guardarReto(reto) {
+      let retos = JSON.parse(localStorage.getItem('defyx_retos') || '[]');
+      retos.push(reto);
+      localStorage.setItem('defyx_retos', JSON.stringify(retos));
+    }
+
+    document.getElementById('form-crear-desafio').onsubmit = function(e) {
+      e.preventDefault();
+      const categoria = document.getElementById('categoria').value;
+      const recompensa = document.getElementById('valor').value.trim();
+      const titulo = document.getElementById('titulo').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      const img = document.getElementById('img').value.trim() || "https://placekitten.com/400/220";
+      const visibilidad = document.getElementById('visibilidad').value;
+      const grupo = document.getElementById('grupo').value.trim();
+      const usuario = document.getElementById('usuario').value.trim();
+      const autor = localStorage.getItem('defyx_usuario') || "Anónimo";
+      const id = Date.now();
+
+      if (!categoria || !titulo || !descripcion || !visibilidad) {
+        alert("Completa todos los campos obligatorios.");
+        return;
+      }
+      if (visibilidad === "grupo" && !grupo) {
+        alert("Debes ingresar el nombre del grupo.");
+        return;
+      }
+      if (visibilidad === "privado" && !usuario) {
+        alert("Debes ingresar el usuario o email.");
+        return;
+      }
+
+      guardarReto({
+        id,
+        categoria,
+        recompensa,
+        titulo,
+        descripcion,
+        img,
+        visibilidad,
+        grupo: visibilidad === "grupo" ? grupo : "",
+        usuario: visibilidad === "privado" ? usuario : "",
+        autor,
+        fecha: new Date().toISOString().slice(0,10)
+      });
+
+      alert("¡Desafío creado!");
+      this.reset();
+      window.location.href = "explorar.html";
+    };
+  </script>
+</body>

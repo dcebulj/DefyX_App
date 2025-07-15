@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Empresa - Revisión de Evidencias | DefyX</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #18191a; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+    .panel-container { max-width: 700px; margin: 2rem auto; background: #23272a; border-radius: 1.2rem; padding: 2rem 1.5rem; box-shadow: 0 2px 12px #0005; }
+    h2 { margin-top: 0; color: #1da1f2; }
+    .evidencia-card { background: #18191a; border-radius: 1rem; padding: 1rem; margin-bottom: 1.2rem; }
+    .evidencia-card img, .evidencia-card video { max-width: 220px; border-radius: 0.7rem; margin-bottom: 0.7rem; }
+    .evidencia-info { margin-bottom: 0.7rem; }
+    .evidencia-estado { font-weight: bold; }
+    .evidencia-comentario { color: #ffd700; margin-top: 0.5rem; }
+    .btn-aprobar, .btn-rechazar { border: none; border-radius: 1rem; padding: 0.5rem 1.2rem; font-size: 1rem; font-weight: bold; cursor: pointer; margin-right: 0.5rem; }
+    .btn-aprobar { background: #4caf50; color: #fff; }
+    .btn-rechazar { background: #f44336; color: #fff; }
+    textarea { width: 90%; border-radius: 1rem; padding: 0.5rem; margin-top: 0.5rem; }
+    .no-evidencias { color: #b0b0b0; text-align: center; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="panel-container">
+    <h2>Panel de revisión de evidencias <span style="font-size:1rem;color:#4fc3f7;">(Empresa)</span></h2>
+    <div id="lista-evidencias"></div>
+    <div class="no-evidencias" id="no-evidencias" style="display:none;">No hay evidencias pendientes para tus desafíos.</div>
+  </div>
+  <script>
+    // Solo permitir acceso si es empresa
+    if (localStorage.getItem('defyx_tipo') !== 'empresa') {
+      alert("Acceso solo para empresas.");
+      window.location.href = "index.html";
+    }
+
+    // Simulación: cargar evidencias de LocalStorage asociadas a desafíos de la empresa logueada
+    const usuarioEmpresa = localStorage.getItem('defyx_usuario') || "EmpresaX";
+    // Supón que los desafíos de la empresa tienen el campo autor = usuarioEmpresa
+    const retos = JSON.parse(localStorage.getItem('defyx_retos') || '[]').filter(r => r.autor === usuarioEmpresa);
+    const evidenciasAll = JSON.parse(localStorage.getItem('defyx_evidencias') || '{}');
+    // Unir todas las evidencias de los retos de la empresa
+    let evidencias = [];
+    retos.forEach(reto => {
+      (evidenciasAll[reto.id] || []).forEach(ev => {
+        evidencias.push({
+          ...ev,
+          idReto: reto.id,
+          tituloReto: reto.titulo,
+          recompensa: reto.recompensa,
+          estado: ev.estado || "pendiente",
+          comentario: ev.comentario || ""
+        });
+      });
+    });
+
+    function renderPanelRevision() {
+      const lista = document.getElementById('lista-evidencias');
+      lista.innerHTML = "";
+      if (evidencias.length === 0) {
+        document.getElementById('no-evidencias').style.display = "block";
+        return;
+      } else {
+        document.getElementById('no-evidencias').style.display = "none";
+      }
+      evidencias.forEach((e, idx) => {
+        lista.innerHTML += `
+          <div class="evidencia-card">
+            <div class="evidencia-info">
+              <b>Desafío:</b> ${e.tituloReto} <br>
+              <b>Recompensa:</b> <span style="color:#ffd700;">${e.recompensa || "Sin recompensa"}</span><br>
+              <b>Usuario:</b> ${e.usuario || "Anónimo"}<br>
+              <b>Estado:</b> <span class="evidencia-estado">${e.estado}</span>
+            </div>
+            ${e.url ? (e.url.match(/\.(mp4|webm|ogg)$/i) ?
+              `<video src="${e.url}" controls></video>` :
+              `<img src="${e.url}" alt="evidencia">`) : ""}
+            <textarea id="comentario${idx}" placeholder="Comentario de rechazo (opcional)">${e.comentario || ""}</textarea><br>
+            <button class="btn-aprobar" onclick="aprobar(${idx})">Aprobar</button>
+            <button class="btn-rechazar" onclick="rechazar(${idx})">Rechazar</button>
+            ${e.estado !== "pendiente" && e.comentario ? `<div class="evidencia-comentario"><b>Comentario:</b> ${e.comentario}</div>` : ""}
+          </div>
+        `;
+      });
+    }
+
+    function agregarNotificacion(usuario, mensaje) {
+      let notificaciones = JSON.parse(localStorage.getItem('defyx_notificaciones') || '[]');
+      notificaciones.push({
+        usuario,
+        mensaje,
+        fecha: new Date().toISOString()
+      });
+      localStorage.setItem('defyx_notificaciones', JSON.stringify(notificaciones));
+    }
+
+    function aprobar(idx) {
+      evidencias[idx].estado = "aprobada";
+      evidencias[idx].comentario = document.getElementById('comentario'+idx).value;
+      guardarEstadoEvidencia(evidencias[idx]);
+      agregarNotificacion(evidencias[idx].usuario, `Tu evidencia para el desafío "${evidencias[idx].tituloReto}" fue APROBADA.`);
+      renderPanelRevision();
+      alert("Evidencia aprobada. El usuario será notificado.");
+    }
+    function rechazar(idx) {
+      evidencias[idx].estado = "rechazada";
+      evidencias[idx].comentario = document.getElementById('comentario'+idx).value;
+      guardarEstadoEvidencia(evidencias[idx]);
+      agregarNotificacion(evidencias[idx].usuario, `Tu evidencia para el desafío "${evidencias[idx].tituloReto}" fue RECHAZADA. Motivo: ${evidencias[idx].comentario}`);
+      renderPanelRevision();
+      alert("Evidencia rechazada. El usuario será notificado con el motivo.");
+    }
+
+    // Actualiza el estado de la evidencia en localStorage
+    function guardarEstadoEvidencia(evi) {
+      let evidenciasAll = JSON.parse(localStorage.getItem('defyx_evidencias') || '{}');
+      let lista = evidenciasAll[evi.idReto] || [];
+      let idx = lista.findIndex(ev => (ev.usuario === evi.usuario && ev.url === evi.url));
+      if (idx !== -1) {
+        lista[idx].estado = evi.estado;
+        lista[idx].comentario = evi.comentario;
+        evidenciasAll[evi.idReto] = lista;
+        localStorage.setItem('defyx_evidencias', JSON.stringify(evidenciasAll));
+      }
+    }
+
+    renderPanelRevision();
+  </script>
+</body>
